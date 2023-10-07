@@ -3,27 +3,28 @@ import 'package:notez/features/note/domain/entities/kind.dart';
 import 'package:notez/features/note/domain/entities/location.dart';
 import 'package:notez/features/note/domain/entities/note.dart';
 
-class NoteModel {
+class NoteModel extends Note {
   NoteModel({
-    this.id,
-    required this.title,
-    this.content,
-    required this.createdOn,
-    required this.lastUpdated,
-    required this.kind,
-    this.todos,
-    this.folder,
-    required this.location,
-  });
-  int? id;
-  String title;
-  String? content;
-  DateTime createdOn;
-  DateTime lastUpdated;
-  Kind kind;
-  List<int>? todos;
-  int? folder;
-  Location location;
+    int? id,
+    required String title,
+    String? content,
+    required DateTime createdOn,
+    required DateTime lastUpdated,
+    required Kind kind,
+    List<int>? todos,
+    int? folder,
+    required Location location,
+  }) : super(
+          id: id,
+          title: title,
+          content: content,
+          createdOn: createdOn,
+          lastUpdated: lastUpdated,
+          kind: kind,
+          todos: todos,
+          folder: folder,
+          location: location,
+        );
 
   factory NoteModel.newNote() {
     return NoteModel(
@@ -32,6 +33,19 @@ class NoteModel {
       lastUpdated: DateTime.now(),
       kind: Kind.note,
       location: Location.localStorage,
+    );
+  }
+
+  factory NoteModel.fromNote(Note note) {
+    return NoteModel(
+      id: note.id,
+      title: note.title,
+      createdOn: note.createdOn,
+      lastUpdated: note.lastUpdated,
+      kind: note.kind,
+      todos: note.todos,
+      folder: note.folder,
+      location: note.location,
     );
   }
 
@@ -57,14 +71,4 @@ class NoteModel {
         'kind': kind.name,
         'location': location.name,
       };
-
-  Note toNote() {
-    return Note(
-      title: title,
-      createdOn: createdOn,
-      lastUpdated: lastUpdated,
-      kind: kind,
-      location: location,
-    );
-  }
 }

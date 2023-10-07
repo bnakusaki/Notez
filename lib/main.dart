@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:notez/features/note/domain/entities/kind.dart';
+import 'package:notez/features/note/domain/entities/location.dart';
+import 'package:notez/features/note/domain/entities/note.dart';
 import 'package:notez/features/note/note_dependency_injection.dart' as note_injection;
 import 'package:notez/features/note/note_dependency_injection.dart';
 import 'package:notez/features/note/presentation/presentation_logic_holders/note_bloc.dart';
@@ -26,6 +29,18 @@ Future<void> main() async {
   final anotherResponse = await bloc.read(9);
   debugPrint(response.toString());
   debugPrint(anotherResponse.title);
+
+  Note note = Note(
+    id: 9,
+    title: 'updated',
+    createdOn: DateTime.now(),
+    lastUpdated: DateTime.now(),
+    kind: Kind.note,
+    location: Location.localStorage,
+  );
+
+  final update = await bloc.update(note);
+  debugPrint(update.toString());
   // runApp(const MyApp());
 }
 

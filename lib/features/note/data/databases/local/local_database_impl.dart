@@ -6,14 +6,12 @@ import 'package:sqflite/sqflite.dart';
 class LocalDatabaseImpl implements LocalDatabase {
   @override
   Future<int> createNote() async {
-    // Inserting note.
     database.insert(
       'notes',
       NoteModel.newNote().toJson(),
       conflictAlgorithm: ConflictAlgorithm.abort,
     );
 
-    // Query.
     final response = await database.query(
       'notes',
       columns: ['id'],
@@ -31,5 +29,18 @@ class LocalDatabaseImpl implements LocalDatabase {
     );
 
     return NoteModel.fromJson(response[0]);
+  }
+
+  @override
+  Future<int> updateNote(NoteModel noteModel) async {
+    final response =
+        await database.update('notes', noteModel.toJson(), where: 'id = ${noteModel.id}');
+    return response;
+  }
+
+  @override
+  Future<int> deleteNote(int id) async {
+    final response = await database.delete('notes', where: 'id = $id');
+    return response;
   }
 }
