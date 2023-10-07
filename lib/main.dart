@@ -2,13 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:notez/features/note/note_dependency_injection.dart' as note_injection;
 import 'package:notez/features/note/note_dependency_injection.dart';
 import 'package:notez/features/note/presentation/presentation_logic_holders/note_bloc.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+late Database database;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  database = await openDatabase(
+    join(await getDatabasesPath(), 'notez'),
+    onCreate: (db, version) {
+      return db.execute(
+          'CREATE TABLE notes(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, createdOn TEXT, lastUpdated TEXT, kind TEXT, todo TEXT, folder INTEGER, location TEXT)');
+    },
+    version: 1,
+  );
   note_injection.init();
 
-  final response = await sl<NoteBloc>().create();
+  final bloc = sl<NoteBloc>();
+  final response = await bloc.create();
+
+  final anotherResponse = await bloc.read(9);
   debugPrint(response.toString());
+  debugPrint(anotherResponse.title);
   // runApp(const MyApp());
 }
 

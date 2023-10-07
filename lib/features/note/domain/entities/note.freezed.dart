@@ -65,10 +65,10 @@ class _$NoteCopyWithImpl<$Res, $Val extends Note>
     Object? content = freezed,
     Object? createdOn = null,
     Object? lastUpdated = null,
-    Object? kind = freezed,
+    Object? kind = null,
     Object? todos = freezed,
     Object? folder = freezed,
-    Object? location = freezed,
+    Object? location = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -91,7 +91,7 @@ class _$NoteCopyWithImpl<$Res, $Val extends Note>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      kind: freezed == kind
+      kind: null == kind
           ? _value.kind
           : kind // ignore: cast_nullable_to_non_nullable
               as Kind,
@@ -103,7 +103,7 @@ class _$NoteCopyWithImpl<$Res, $Val extends Note>
           ? _value.folder
           : folder // ignore: cast_nullable_to_non_nullable
               as int?,
-      location: freezed == location
+      location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as Location,
@@ -145,10 +145,10 @@ class __$$NoteImplCopyWithImpl<$Res>
     Object? content = freezed,
     Object? createdOn = null,
     Object? lastUpdated = null,
-    Object? kind = freezed,
+    Object? kind = null,
     Object? todos = freezed,
     Object? folder = freezed,
-    Object? location = freezed,
+    Object? location = null,
   }) {
     return _then(_$NoteImpl(
       id: freezed == id
@@ -171,7 +171,7 @@ class __$$NoteImplCopyWithImpl<$Res>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      kind: freezed == kind
+      kind: null == kind
           ? _value.kind
           : kind // ignore: cast_nullable_to_non_nullable
               as Kind,
@@ -183,7 +183,7 @@ class __$$NoteImplCopyWithImpl<$Res>
           ? _value.folder
           : folder // ignore: cast_nullable_to_non_nullable
               as int?,
-      location: freezed == location
+      location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as Location,
@@ -250,10 +250,11 @@ class _$NoteImpl implements _Note {
                 other.createdOn == createdOn) &&
             (identical(other.lastUpdated, lastUpdated) ||
                 other.lastUpdated == lastUpdated) &&
-            const DeepCollectionEquality().equals(other.kind, kind) &&
+            (identical(other.kind, kind) || other.kind == kind) &&
             const DeepCollectionEquality().equals(other._todos, _todos) &&
             (identical(other.folder, folder) || other.folder == folder) &&
-            const DeepCollectionEquality().equals(other.location, location));
+            (identical(other.location, location) ||
+                other.location == location));
   }
 
   @override
@@ -264,10 +265,10 @@ class _$NoteImpl implements _Note {
       content,
       createdOn,
       lastUpdated,
-      const DeepCollectionEquality().hash(kind),
+      kind,
       const DeepCollectionEquality().hash(_todos),
       folder,
-      const DeepCollectionEquality().hash(location));
+      location);
 
   @JsonKey(ignore: true)
   @override
