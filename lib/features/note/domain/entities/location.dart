@@ -1,0 +1,1 @@
+enum Location { localStorage, cloud }

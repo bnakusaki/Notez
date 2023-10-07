@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:notez/features/note/note_dependency_injection.dart' as note_injection;
+import 'package:notez/features/note/note_dependency_injection.dart';
+import 'package:notez/features/note/presentation/presentation_logic_holders/note_bloc.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  note_injection.init();
+
+  final response = await sl<NoteBloc>().create();
+  debugPrint(response.toString());
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
