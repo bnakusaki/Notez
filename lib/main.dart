@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:notez/features/home/home_dependency_injection.dart' as home_injection;
+import 'package:notez/features/home/presentation/widget/screens/home_screen.dart';
 import 'package:notez/features/note/note_dependency_injection.dart' as note_injection;
-import 'package:notez/features/note/presentation/widgets/note_object.dart';
+import 'package:notez/features/note/note_dependency_injection.dart';
+import 'package:notez/features/note/presentation/presentation_logic_holders/note_bloc.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -18,6 +21,9 @@ Future<void> main() async {
     version: 1,
   );
   note_injection.init();
+  home_injection.init();
+
+  sl<NoteBloc>().create();
 
   runApp(const MyApp());
 }
@@ -29,17 +35,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
-      home: Scaffold(
-          body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(child: NoteObject('untitiled note', DateTime.now())),
-      )),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: true,
+        ),
+        home: const HomeScreen());
   }
 }
 
