@@ -1,46 +1,80 @@
+import 'package:notez/core/database.dart';
 import 'package:notez/features/note/data/databases/local/local_database.dart';
 import 'package:notez/features/note/data/models/note_model.dart';
-import 'package:notez/main.dart';
+import 'package:notez/features/note/presentation/presentation_logic_holders/states.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite/sqflite.dart';
 
-class LocalDatabaseImpl implements LocalDatabase {
-  @override
-  Future<int> createNote() async {
-    database.insert(
-      'notes',
-      NoteModel.newNote().toJson(),
-      conflictAlgorithm: ConflictAlgorithm.abort,
-    );
+part 'local_database_impl.g.dart';
 
-    final response = await database.query(
-      'notes',
-      columns: ['id'],
-      orderBy: 'id DESC',
-      limit: 1,
-    );
-    return response[0]['id'] as int;
+@riverpod
+class LocalDatabaseImpl extends _$LocalDatabaseImpl implements LocalDatabase {
+  @override
+  void build() {}
+
+  @override
+  Future<int?>? createNote() async {
+    final AsyncValue<Database> database = ref.watch(databaseProvider);
+
+    switch (database) {
+      case AsyncError(:final error):
+        throw error;
+      case AsyncData(:final value):
+        return value.insert(
+          'notes',
+          NoteModel.newNote().toJson(),
+          conflictAlgorithm: ConflictAlgorithm.abort,
+        );
+    }
+    return null;
   }
 
   @override
-  Future<NoteModel> readNote(int id) async {
-    final response = await database.query(
-      'notes',
-      where: 'id = $id',
-    );
+  Future<NoteModel?>? readNote(int id) async {
+    final AsyncValue<Database> database = ref.watch(databaseProvider);
 
-    return NoteModel.fromJson(response[0]);
+    switch (database) {
+      case AsyncError(:final error):
+        throw error;
+      case AsyncData(:final value):
+        final response = await value.query(
+          'notes',
+          where: 'id = $id',
+        );
+        final fResponse = NoteModel.fromJson(response[0]);
+        ref.read(noteStateProvider.notifier).state = fResponse;
+        return fResponse;
+    }
+    return null;
   }
 
   @override
-  Future<int> updateNote(NoteModel noteModel) async {
-    final response =
-        await database.update('notes', noteModel.toJson(), where: 'id = ${noteModel.id}');
-    return response;
+  Future<int?>? updateNote(NoteModel noteModel) async {
+    final AsyncValue<Database> database = ref.watch(databaseProvider);
+
+    switch (database) {
+      case AsyncError(:final error):
+        throw error;
+      case AsyncData(:final value):
+        return await value.update(
+          'notes',
+          noteModel.toJson(),
+          where: 'id = ${noteModel.id}',
+        );
+    }
+    return null;
   }
 
   @override
-  Future<int> deleteNote(int id) async {
-    final response = await database.delete('notes', where: 'id = $id');
-    return response;
+  Future<int?>? deleteNote(int id) async {
+    final AsyncValue<Database> database = ref.watch(databaseProvider);
+
+    switch (database) {
+      case AsyncError(:final error):
+        throw error;
+      case AsyncData(:final value):
+        return await value.delete('notes', where: 'id = $id');
+    }
+    return null;
   }
 }

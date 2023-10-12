@@ -1,7 +1,7 @@
-/// An enum for storage locations.
+/// An enum of storage locations.
 enum Location { localStorage, cloud }
 
-/// Returns String parsed to [Location].
+/// Parses String to [Location].
 Location toLocation(String arg) {
   if (arg == 'localStorage') return Location.localStorage;
   return Location.cloud;

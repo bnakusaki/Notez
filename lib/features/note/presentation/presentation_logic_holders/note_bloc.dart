@@ -17,8 +17,8 @@ class NoteBloc {
   final UpdateNote updateNote;
   final DeleteNote deleteNote;
 
-  Future<int> create() async => await createNote();
-  Future<Note> read(int id) async => await readNote(id);
-  Future<int> update(Note note) async => await updateNote(note);
-  Future<int> delete(int id) async => await deleteNote(id);
+  Future<int?>? create() async => await createNote();
+  Future<Note?>? read(int id) async => await readNote(id);
+  Future<int?>? update(Note note) async => await updateNote(note);
+  Future<int?>? delete(int id) async => await deleteNote(id);
 }
