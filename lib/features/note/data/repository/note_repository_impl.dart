@@ -8,28 +8,19 @@ class NoteRepositoryImpl implements NoteRepository {
   NoteRepositoryImpl(this.localDatabase);
   final LocalDatabase localDatabase;
 
-  /// Creates a new object in the local storage.
   @override
-  Future<int?>? createNote() async {
-    final response = await localDatabase.createNote();
-    return response;
-  }
+  Future<int?>? createNote() async => await localDatabase.createNote();
 
   @override
-  Future<Note?>? readNote(int id) async {
-    final response = await localDatabase.readNote(id);
-    return response;
-  }
+  Future<Note?>? readNote(int id) async => await localDatabase.readNote(id);
 
   @override
   Future<int?>? updateNote(Note note) async {
-    final response = await localDatabase.updateNote(NoteModel.fromNote(note));
+    final noteModel = NoteModel.fromNote(note);
+    final response = await localDatabase.updateNote(noteModel);
     return response;
   }
 
   @override
-  Future<int?>? deleteNote(int id) async {
-    final response = await localDatabase.deleteNote(id);
-    return response;
-  }
+  Future<int?>? deleteNote(int id) async => await localDatabase.deleteNote(id);
 }

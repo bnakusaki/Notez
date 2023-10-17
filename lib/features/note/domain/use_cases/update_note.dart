@@ -6,8 +6,5 @@ class UpdateNote {
   UpdateNote(this.repository);
   final NoteRepository repository;
 
-  Future<int?>? call(Note note) async {
-    final response = await repository.updateNote(note);
-    return response;
-  }
+  Future<int?>? call(Note note) async => await repository.updateNote(note);
 }

@@ -1,9 +1,14 @@
 /// An enum of Notez's Feature Type.
 enum Kind { note, todo, folder }
 
-/// Parses String to [Kind].
+/// Parses formatted [String] to [Kind].
 Kind toKind(String arg) {
-  if (arg == 'note') return Kind.note;
-  if (arg == 'todo') return Kind.todo;
-  return Kind.folder;
+  switch (arg) {
+    case 'note':
+      return Kind.note;
+    case 'todo':
+      return Kind.todo;
+    default:
+      return Kind.folder;
+  }
 }
