@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notez/features/note/presentation/presentation_logic_holders/format_date_time.dart';
 
 class NoteObject extends StatelessWidget {
   const NoteObject(
@@ -19,7 +18,7 @@ class NoteObject extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       title: Text(title),
-      subtitle: Text(formatDateTime(createdOn)),
+      // subtitle: Text(formatDateTime(createdOn)),
       trailing: IconButton(
         onPressed: () {},
         icon: const Icon(Icons.more_horiz),
