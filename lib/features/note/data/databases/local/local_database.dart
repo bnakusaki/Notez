@@ -8,6 +8,7 @@ abstract class LocalDatabase {
   Future<Either<Exception, NoteModel>> readNote(int id);
   Future<Either<Exception, int>> updateNote(NoteModel noteModel);
   Future<Either<Exception, int>> deleteNote(int id);
+  Future<Either<Exception, List<NoteModel>>> getNotes();
 }
 
 class LocalDatabaseImpl implements LocalDatabase {
@@ -63,6 +64,18 @@ class LocalDatabaseImpl implements LocalDatabase {
 
       final response = await database.delete('notes', where: 'id = $id');
       return Right(response);
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  Future<Either<Exception, List<NoteModel>>> getNotes() async {
+    try {
+      final database = await NotezDatabase.database();
+      final response = await database.query('notes');
+      final fResponse = response.map((json) => NoteModel.fromJson(json)).toList();
+      return Right(fResponse);
     } on Exception catch (e) {
       return Left(e);
     }
