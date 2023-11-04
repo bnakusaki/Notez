@@ -1,0 +1,9 @@
+{
+    "appName": "Notez",
+    "companyName": "ODUM",
+    "signInButtonLabel": "Sign in",
+    "privacyAndTermsButtonLabel": "Privacy & Terms",
+    "productPurpose1": "A Latex solution by ODUM",
+    "productPurpose2": "Change your notes into Latex documents.",
+    "getStartedButtonLabel": "Get started"
+}
