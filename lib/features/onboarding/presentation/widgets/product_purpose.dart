@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:notez/features/authentication/domain/entities/federated_provider.dart';
 import 'package:notez/features/authentication/presentation/presentation_logic_holders/authentication_bloc.dart';
 import 'package:notez/features/authentication/presentation/presentation_logic_holders/authentication_state.dart';
 
@@ -45,7 +44,7 @@ class ProductPurpose extends StatelessWidget {
                   ),
             ),
             const SizedBox(height: 20.0),
-            BlocBuilder<AuthenticateUser, AuthenticationState>(
+            BlocBuilder<AuthenticateAnonymouslyCubit, AuthenticationState>(
                 builder: (context, authenticationState) {
               switch (authenticationState) {
                 case Loading():
@@ -71,8 +70,7 @@ class ProductPurpose extends StatelessWidget {
                   );
               }
               return FilledButton(
-                onPressed: () async =>
-                    await context.read<AuthenticateUser>().execute(FederatedProvider.anonymous),
+                onPressed: () async => await context.read<AuthenticateAnonymouslyCubit>().call(),
                 child: Text(l10n.getStartedButtonLabel),
               );
             })

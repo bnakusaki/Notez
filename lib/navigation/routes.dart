@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:notez/features/authentication/presentation/pages/sign_in_page.dart';
-import 'package:notez/features/home/presentation/home_screen.dart';
+import 'package:notez/features/home/presentation/pages/home_page.dart';
 import 'package:notez/features/onboarding/presentation/pages/onbording_page.dart';
 import 'package:notez/navigation/route_names.dart';
 
@@ -13,7 +13,7 @@ GoRouter routes = GoRouter(
       builder: (context, state) => const OnboardingPage(),
       routes: [
         GoRoute(
-          path: '/signIn',
+          path: 'signIn',
           name: RouteNames.signIn,
           builder: (context, state) => const SignInPage(),
         ),
@@ -22,7 +22,7 @@ GoRouter routes = GoRouter(
     GoRoute(
       path: '/home',
       name: RouteNames.home,
-      builder: (context, state) => const HomeScreen(),
+      builder: (context, state) => const HomePage(),
     )
   ],
 );

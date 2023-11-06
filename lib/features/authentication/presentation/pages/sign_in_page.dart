@@ -16,8 +16,9 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FirebaseAuth.instance.authStateChanges().listen((event) {
-      if (event == null) return context.goNamed(RouteNames.onboarding);
-      return context.goNamed(RouteNames.home);
+      if (event != null) {
+        return context.goNamed(RouteNames.home);
+      }
     });
 
     final l10n = AppLocalizations.of(context)!;
@@ -46,7 +47,7 @@ class SignInPage extends StatelessWidget {
       ),
       backgroundColor: colorScheme.scrim,
       body: Center(
-        child: BlocBuilder<AuthenticateUser, AuthenticationState>(
+        child: BlocBuilder<AuthenticateUserCubit, AuthenticationState>(
           builder: (context, authenticationState) {
             switch (authenticationState) {
               case Loading():
@@ -81,12 +82,12 @@ class SignInPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: OutlinedButton.icon(
                       onPressed: () async {
-                        await context.read<AuthenticateUser>().execute(button.federatedProvider);
+                        await context.read<AuthenticateUserCubit>().call(button.federatedProvider);
                       },
                       icon: Icon(button.icon),
                       label: Text(
                         button.label,
-                        style: TextStyle(color: colorScheme.onPrimary),
+                        style: TextStyle(color: colorScheme.onBackground),
                       ),
                     ),
                   );

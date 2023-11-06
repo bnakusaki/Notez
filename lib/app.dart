@@ -11,9 +11,16 @@ class Notez extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => AuthenticateUser(),
-      child: BlocBuilder<AuthenticateUser, AuthenticationState>(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticateUserCubit>(
+          create: (BuildContext context) => AuthenticateUserCubit(),
+        ),
+        BlocProvider<AuthenticateAnonymouslyCubit>(
+          create: (BuildContext context) => AuthenticateAnonymouslyCubit(),
+        ),
+      ],
+      child: BlocBuilder<AuthenticateUserCubit, AuthenticationState>(
         builder: (context, authenticationState) {
           return MaterialApp.router(
             theme: theme,

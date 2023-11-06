@@ -29,10 +29,10 @@ class AuthenticationBloc {
       await _authenticateAnonymously();
 }
 
-class AuthenticateUser extends Cubit<AuthenticationState> {
-  AuthenticateUser() : super(Initial());
+class AuthenticateUserCubit extends Cubit<AuthenticationState> {
+  AuthenticateUserCubit() : super(Initial());
 
-  Future execute(FederatedProvider federatedProvider) async {
+  Future call(FederatedProvider federatedProvider) async {
     emit(Loading());
     try {
       if (federatedProvider == FederatedProvider.google) {
@@ -43,11 +43,22 @@ class AuthenticateUser extends Cubit<AuthenticationState> {
         final bloc = sl<AuthenticationBloc>();
         final response = await bloc.authenticateWithGoogle();
         response.fold((l) => emit(Failure((l as AuthException).message)), (r) => emit(Success()));
-      } else if (federatedProvider == FederatedProvider.anonymous) {
-        final bloc = sl<AuthenticationBloc>();
-        final response = await bloc.authenticateAnonymously();
-        response.fold((l) => emit(Failure((l as AuthException).message)), (r) => emit(Success()));
       }
+    } on () {
+      emit(Failure('Oops something unexpected happened.'));
+    }
+  }
+}
+
+class AuthenticateAnonymouslyCubit extends Cubit<AuthenticationState> {
+  AuthenticateAnonymouslyCubit() : super(Initial());
+
+  Future call() async {
+    emit(Loading());
+    try {
+      final bloc = sl<AuthenticationBloc>();
+      final response = await bloc.authenticateAnonymously();
+      response.fold((l) => emit(Failure((l as AuthException).message)), (r) => emit(Success()));
     } on () {
       emit(Failure('Oops something unexpected happened.'));
     }
