@@ -1,14 +1,28 @@
-import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
-import 'package:notez/features/note/domain/entities/note.dart';
-import 'package:notez/features/note/note_dependency_injection.dart';
-import 'package:notez/features/note/presentation/presentation_logic_holders/note_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notez/features/home/presentation/presentation_logic_holder/drawer_state.dart';
 
-class HomeState extends ChangeNotifier {
-  final noteBloc = sl<NoteBloc>();
+class HomeState {}
 
-  Future<Either<Exception, List<Note>>> getNotes() async {
-    final response = await noteBloc.getNotes();
-    return response;
+class DrawerStateCubit extends Cubit<DrawerState> {
+  DrawerStateCubit() : super(Open());
+
+  void opentDrawer() => emit(Open());
+  void closeDrawer() => emit(Close());
+  void toggleDrawer() {
+    if (state is Open) {
+      emit(Close());
+    } else if (state is Close) {
+      emit(Open());
+    }
+  }
+}
+
+class MenuStateCubit extends Cubit<String> {
+  MenuStateCubit() : super('All notes');
+
+  void setMenu(String menuLabel) {
+    if (menuLabel != state) {
+      emit(menuLabel);
+    }
   }
 }

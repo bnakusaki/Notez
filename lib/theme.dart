@@ -15,4 +15,7 @@ ThemeData theme = ThemeData(
         fixedSize: const Size(150, 50),
         side: const BorderSide(color: Colors.white)),
   ),
+  iconButtonTheme: IconButtonThemeData(
+    style: IconButton.styleFrom(),
+  ),
 );
