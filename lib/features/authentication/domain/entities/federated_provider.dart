@@ -1,0 +1,4 @@
+enum FederatedProvider {
+  google,
+  apple,
+}

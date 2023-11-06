@@ -1,0 +1,22 @@
+import 'package:get_it/get_it.dart';
+import 'package:notez/features/authentication/data/data_source/remote/authentication_remote_data_source.dart';
+import 'package:notez/features/authentication/data/repository/authentication_repository_impl.dart';
+import 'package:notez/features/authentication/domain/repository/authentication_repository.dart';
+import 'package:notez/features/authentication/domain/use_cases/authenticate_anonymously.dart';
+import 'package:notez/features/authentication/domain/use_cases/authenticate_with_apple.dart';
+import 'package:notez/features/authentication/domain/use_cases/authenticate_with_google.dart';
+import 'package:notez/features/authentication/presentation/presentation_logic_holders/authentication_bloc.dart';
+
+final sl = GetIt.instance;
+
+void init() {
+  sl
+    ..registerFactory(() => AuthenticationBloc(sl(), sl(), sl()))
+    ..registerLazySingleton<AuthenticationRepository>(() => AuthenticationRepositoryImpl(sl()))
+    ..registerLazySingleton<AuthenticationRemoteDataSource>(
+      () => AuthenticationRemoteDataSourceImpl(),
+    )
+    ..registerLazySingleton(() => AuthenticateWithGoogle(sl()))
+    ..registerLazySingleton(() => AuthenticateWithApple(sl()))
+    ..registerLazySingleton(() => AuthenticateAnonymously(sl()));
+}

@@ -1,16 +1,10 @@
-# notez
+# Notez
 
-A new Flutter project.
+## Purpose
 
-## Getting Started
+This product is to help students working on their thesis and other project focus on the important stuff and take their minds of the hustle of learning Latex.
 
-This project is a starting point for a Flutter application.
+## Authentication
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Notez uses only Federated Authentation provisions to store user notes. This makes user notes accesible from various devices.
+There are two authentication options avaiable, (1) Authentication with Google account. (2) Authenticatoin with Apple account.
