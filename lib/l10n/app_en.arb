@@ -5,5 +5,9 @@
     "privacyAndTermsButtonLabel": "Privacy & Terms",
     "productPurpose1": "A Latex solution by ODUM",
     "productPurpose2": "Change your notes into Latex documents.",
-    "getStartedButtonLabel": "Get started"
+    "getStartedButtonLabel": "Get started",
+    "cancelButtonLabel": "Cancel",
+    "alertDialogErrorTitle": "Error",
+    "google": "Google",
+    "apple": "Apple"
 }

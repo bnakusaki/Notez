@@ -9,4 +9,10 @@ ThemeData theme = ThemeData(
       ),
     ),
   ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        fixedSize: const Size(150, 50),
+        side: const BorderSide(color: Colors.white)),
+  ),
 );
