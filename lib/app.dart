@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notez/features/authentication/presentation/presentation_logic_holders/authentication_bloc.dart';
 import 'package:notez/features/authentication/presentation/presentation_logic_holders/authentication_state.dart';
+import 'package:notez/features/home/presentation/presentation_logic_holder/home_state.dart';
 import 'package:notez/navigation/routes.dart';
 import 'package:notez/theme.dart';
 
@@ -18,6 +19,12 @@ class Notez extends StatelessWidget {
         ),
         BlocProvider<AuthenticateAnonymouslyCubit>(
           create: (BuildContext context) => AuthenticateAnonymouslyCubit(),
+        ),
+        BlocProvider<DrawerStateCubit>(
+          create: (BuildContext context) => DrawerStateCubit(),
+        ),
+        BlocProvider<MenuStateCubit>(
+          create: (BuildContext context) => MenuStateCubit(),
         ),
       ],
       child: BlocBuilder<AuthenticateUserCubit, AuthenticationState>(

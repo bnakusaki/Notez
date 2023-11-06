@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:notez/features/authentication/presentation/pages/sign_in_page.dart';
 import 'package:notez/features/home/presentation/pages/home_page.dart';
@@ -19,10 +20,15 @@ GoRouter routes = GoRouter(
         ),
       ],
     ),
-    GoRoute(
-      path: '/home',
-      name: RouteNames.home,
-      builder: (context, state) => const HomePage(),
+    ShellRoute(
+      builder: (context, state, child) => HomePage(child),
+      routes: [
+        GoRoute(
+          path: '/allNotes',
+          name: RouteNames.home,
+          builder: (context, state) => Container(color: Colors.red),
+        ),
+      ],
     )
   ],
 );
