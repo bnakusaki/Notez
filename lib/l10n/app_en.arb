@@ -9,5 +9,12 @@
     "cancelButtonLabel": "Cancel",
     "alertDialogErrorTitle": "Error",
     "google": "Google",
-    "apple": "Apple"
+    "apple": "Apple",
+    "currentPath": "Notez > {value}",
+    "@currentPath": {
+        "value": {
+            "type": "String"
+        }
+    },
+    "allNotesSideMenuTabLabel": "All notes"
 }

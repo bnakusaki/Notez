@@ -49,7 +49,7 @@ class LocalDatabaseImpl implements LocalDatabase {
       final response = await database.update(
         'notes',
         noteModel.toJson(),
-        where: 'id = ${noteModel.id}',
+        // where: 'id = ${noteModel.id}',
       );
       return Right(response);
     } on Exception catch (e) {

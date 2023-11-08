@@ -5,6 +5,7 @@ import 'package:notez/features/note/domain/entities/note.dart';
 
 class NoteModel extends Note {
   NoteModel({
+    String? userId,
     int? id,
     required String title,
     String? content,
@@ -15,7 +16,7 @@ class NoteModel extends Note {
     int? folder,
     required Location location,
   }) : super(
-          id: id,
+          // id: id,
           title: title,
           content: content,
           createdOn: createdOn,
@@ -38,7 +39,7 @@ class NoteModel extends Note {
 
   factory NoteModel.fromNote(Note note) {
     return NoteModel(
-      id: note.id,
+      // id: note.id,
       title: note.title,
       createdOn: note.createdOn,
       lastUpdated: note.lastUpdated,
@@ -52,7 +53,7 @@ class NoteModel extends Note {
   factory NoteModel.fromJson(Map<String, dynamic> json) {
     debugPrint(json.toString());
     return NoteModel(
-      id: json['id'],
+      // id: json['id'],
       title: json['title'],
       createdOn: DateTime.parse(json['createdOn']),
       lastUpdated: DateTime.parse(json['lastUpdated']),
@@ -64,6 +65,7 @@ class NoteModel extends Note {
   }
 
   Map<String, dynamic> toJson() => {
+        // 'id': id,
         'title': title,
         'content': content,
         'createdOn': createdOn.toString(),

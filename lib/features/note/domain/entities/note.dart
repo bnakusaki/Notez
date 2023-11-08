@@ -4,7 +4,7 @@ import 'package:notez/features/note/domain/entities/location.dart';
 /// A note entity in Notez.
 class Note {
   Note({
-    this.id,
+    // this.id,
     required this.title,
     this.content,
     required this.createdOn,
@@ -23,7 +23,8 @@ class Note {
   /// 1. Read values from it when it is not null.
   /// 2. [copyWith] to pass data specific to this id without accessing
   ///    it.
-  final int? id;
+  /// !The value of createdOn will be used as the primary key for each userNote collection.
+  // final int? id;
 
   /// Title of a note.
   ///

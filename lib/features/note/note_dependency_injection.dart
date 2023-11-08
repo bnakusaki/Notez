@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:notez/features/note/data/databases/local/local_database.dart';
+import 'package:notez/features/note/data/databases/local_database.dart';
+import 'package:notez/features/note/data/databases/remote_database.dart';
 import 'package:notez/features/note/data/repository/note_repository_impl.dart';
 import 'package:notez/features/note/domain/repository/note_repository.dart';
 import 'package:notez/features/note/domain/use_cases/create_note.dart';
@@ -14,8 +15,9 @@ final sl = GetIt.instance;
 void init() {
   sl
     ..registerFactory(() => NoteBloc(sl(), sl(), sl(), sl(), sl()))
-    ..registerLazySingleton<NoteRepository>(() => NoteRepositoryImpl(sl()))
+    ..registerLazySingleton<NoteRepository>(() => NoteRepositoryImpl(sl(), sl()))
     ..registerLazySingleton<LocalDatabase>(() => LocalDatabaseImpl())
+    ..registerLazySingleton<RemoteDatabase>(() => RemoteDatabaseImpl())
     ..registerLazySingleton(() => CreateNote(sl()))
     ..registerLazySingleton(() => ReadNote(sl()))
     ..registerLazySingleton(() => UpdateNote(sl()))

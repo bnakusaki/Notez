@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:notez/features/home/domain/entities/menu.dart';
 import 'package:notez/features/home/presentation/models/menu_item_model.dart';
@@ -14,16 +15,20 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     List<MenuItemModel> menuItems = [
-      MenuItemModel(label: 'All notes', screen: '', menu: Menu.allNotes),
+      MenuItemModel(label: l10n.allNotesSideMenuTabLabel, screen: '', menu: Menu.allNotes),
     ];
+
     return BlocBuilder<DrawerStateCubit, DrawerState>(
       builder: (context, drawerState) {
         switch (drawerState) {
           case Open():
             return Expanded(
               child: Drawer(
-                backgroundColor: Colors.black,
+                backgroundColor: colorScheme.scrim,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -42,7 +47,7 @@ class SideMenu extends StatelessWidget {
                           child: Text(
                             menuItem.label,
                             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: Colors.white,
+                                  color: colorScheme.onPrimary,
                                 ),
                           ),
                         ),

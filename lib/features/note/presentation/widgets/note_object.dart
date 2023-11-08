@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:notez/features/note/domain/entities/note.dart';
+import 'package:notez/features/note/presentation/presentation_logic_holders/all_notes_page_state.dart';
+import 'package:notez/shared/widgets/icon_button_with_label.dart';
 
 class NoteObject extends StatelessWidget {
-  const NoteObject(
-    this.title,
-    this.createdOn, {
-    super.key,
-  });
-
-  final String title;
-  final DateTime createdOn;
+  const NoteObject({super.key, required this.note});
+  final Note note;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () {},
-      shape: ContinuousRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      title: Text(title),
-      // subtitle: Text(formatDateTime(createdOn)),
-      trailing: IconButton(
-        onPressed: () {},
-        icon: const Icon(Icons.more_horiz),
-      ),
+    return IconButtonWithLabel(
+      onTap: () {
+        context.read<CurrentNoteCubit>().setNote(note);
+        context.go('/readNote');
+      },
+      icon: Ionicons.document_outline,
+      label: note.title,
     );
   }
 }
