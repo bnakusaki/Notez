@@ -22,4 +22,11 @@ class CurrentNoteCubit extends Cubit<Note?> {
   CurrentNoteCubit() : super(null);
 
   void setNote(Note? note) => emit(note);
+  void updateContent(String? content) {
+    state!.content = content;
+  }
+
+  Future<void> updateNote() async {
+    await sl<NoteBloc>().updateNote(state!);
+  }
 }

@@ -21,9 +21,9 @@ class NoteRepositoryImpl implements NoteRepository {
   Future<Either<Exception, Note>> readNote(int id) async => await localDatabase.readNote(id);
 
   @override
-  Future<Either<Exception, int>> updateNote(Note note) async {
+  Future<void> updateNote(Note note) async {
     final noteModel = NoteModel.fromNote(note);
-    final response = await localDatabase.updateNote(noteModel);
+    final response = await remoteDatabase.updateNote(noteModel);
     return response;
   }
 

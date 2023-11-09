@@ -6,7 +6,7 @@ import 'package:notez/features/note/domain/entities/note.dart';
 class NoteModel extends Note {
   NoteModel({
     String? userId,
-    int? id,
+    String? id,
     required String title,
     String? content,
     required DateTime createdOn,
@@ -16,7 +16,7 @@ class NoteModel extends Note {
     int? folder,
     required Location location,
   }) : super(
-          // id: id,
+          id: id,
           title: title,
           content: content,
           createdOn: createdOn,
@@ -39,21 +39,21 @@ class NoteModel extends Note {
 
   factory NoteModel.fromNote(Note note) {
     return NoteModel(
-      // id: note.id,
-      title: note.title,
-      createdOn: note.createdOn,
-      lastUpdated: note.lastUpdated,
-      kind: note.kind,
-      todos: note.todos,
-      folder: note.folder,
-      location: note.location,
-    );
+        id: note.id,
+        title: note.title,
+        createdOn: note.createdOn,
+        lastUpdated: note.lastUpdated,
+        kind: note.kind,
+        todos: note.todos,
+        folder: note.folder,
+        location: note.location,
+        content: note.content);
   }
 
   factory NoteModel.fromJson(Map<String, dynamic> json) {
     debugPrint(json.toString());
     return NoteModel(
-      // id: json['id'],
+      id: json['id'],
       title: json['title'],
       createdOn: DateTime.parse(json['createdOn']),
       lastUpdated: DateTime.parse(json['lastUpdated']),
@@ -65,7 +65,7 @@ class NoteModel extends Note {
   }
 
   Map<String, dynamic> toJson() => {
-        // 'id': id,
+        'id': id,
         'title': title,
         'content': content,
         'createdOn': createdOn.toString(),
@@ -73,4 +73,26 @@ class NoteModel extends Note {
         'kind': kind.name,
         'location': location.name,
       };
+
+  NoteModel copyWith({
+    String? userId,
+    String? id,
+    String? title,
+    String? content,
+    DateTime? createdOn,
+    DateTime? lastUpdated,
+    Kind? kind,
+    List<int>? todos,
+    int? folder,
+    Location? location,
+  }) {
+    return NoteModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      createdOn: createdOn ?? this.createdOn,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
+      kind: kind ?? this.kind,
+      location: location ?? this.location,
+    );
+  }
 }
