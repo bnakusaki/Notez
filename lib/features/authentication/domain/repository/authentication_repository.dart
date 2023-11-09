@@ -5,4 +5,6 @@ abstract class AuthenticationRepository {
   Future<Either<Exception, UserCredential>> authenticateWithGoogle();
   Future<Either<Exception, UserCredential>> authenticateWithApple();
   Future<Either<Exception, UserCredential>> authenticateAnonymously();
+  Future<void> signOut();
+  User? getCurrentUser();
 }

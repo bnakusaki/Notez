@@ -19,4 +19,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<Exception, UserCredential>> authenticateAnonymously() async =>
       await _remoteDataSource.authenticateAnonymously();
+
+  @override
+  Future<void> signOut() async => await _remoteDataSource.signOut();
+
+  @override
+  User? getCurrentUser() => _remoteDataSource.getCurrentUser();
 }

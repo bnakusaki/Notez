@@ -7,6 +7,8 @@ abstract class AuthenticationRemoteDataSource {
   Future<Either<Exception, UserCredential>> authenticateWithGoogle();
   Future<Either<Exception, UserCredential>> authenticateWithApple();
   Future<Either<Exception, UserCredential>> authenticateAnonymously();
+  Future<void> signOut();
+  User? getCurrentUser();
 }
 
 class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSource {
@@ -61,4 +63,10 @@ class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSour
       return Left(AuthException("$e"));
     }
   }
+
+  @override
+  Future<void> signOut() async => await FirebaseAuth.instance.signOut();
+
+  @override
+  User? getCurrentUser() => FirebaseAuth.instance.currentUser;
 }

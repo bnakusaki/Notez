@@ -11,7 +11,7 @@ class NoteObject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String content = note.content ?? 'No content';
+    String content = note.content?.trim() ?? 'No content';
     if (note.content == '') {
       content = 'No content';
     }
@@ -32,6 +32,7 @@ class NoteObject extends StatelessWidget {
                   note.title,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
+                const SizedBox(height: 10.0),
                 Text(
                   content,
                   maxLines: 4,
@@ -46,7 +47,7 @@ class NoteObject extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       TextSpan(
-                        text: DateFormat('EEE, MMM d, y').format(note.lastUpdated),
+                        text: DateFormat('EEE, MMM d, y -  h:m a').format(note.lastUpdated),
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],

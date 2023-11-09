@@ -1,4 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:notez/features/home/presentation/widgets/header.dart';
+import 'package:notez/features/home/presentation/widgets/side_menu.dart';
+import 'package:notez/navigation/route_names.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage(
@@ -6,59 +11,36 @@ class HomePage extends StatelessWidget {
     super.key,
   });
   final Widget child;
+
   @override
   Widget build(BuildContext context) {
-    // final colorScheme = Theme.of(context).colorScheme;
+    FirebaseAuth.instance.authStateChanges().listen((event) {
+      if (event == null) {
+        return context.goNamed(RouteNames.onboarding);
+      }
+    });
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Notes',
-            style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-          ),
-          Expanded(child: child)
-        ],
+      body: SafeArea(
+        minimum: const EdgeInsets.all(10.0),
+        child: Row(
+          children: [
+            const Expanded(
+              child: SideMenu(),
+            ),
+            Expanded(
+              flex: 10,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Header(),
+                  const SizedBox(height: 20),
+                  Expanded(child: child),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
-    // Scaffold(
-    //   backgroundColor: colorScheme.scrim,
-    //   appBar: AppBar(
-    //     backgroundColor: colorScheme.scrim,
-    //     leading: IconButton(
-    //       onPressed: () {
-    //         context.read<DrawerStateCubit>().toggleDrawer();
-    //       },
-    //       icon: const Icon(Ionicons.menu),
-    //       splashRadius: 20.0,
-    //     ),
-    //     title: BlocBuilder<MenuStateCubit, String>(
-    //       builder: (context, menuState) {
-    //         return Text(AppLocalizations.of(context)!.currentPath(menuState));
-    //       },
-    //     ),
-    //     centerTitle: false,
-    //   ),
-    //   body: Row(
-    //     children: [
-    //       const SideMenu(),
-    //       Expanded(
-    //         flex: 7,
-    //         child: Container(
-    //           margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 70.0),
-    //           padding: const EdgeInsets.all(10.0),
-    //           decoration: BoxDecoration(
-    //             color: Theme.of(context).colorScheme.background,
-    //             borderRadius: BorderRadius.circular(15.0),
-    //           ),
-    //           child: child,
-    //         ),
-    //       ).animate(delay: .200.seconds).scaleX(curve: Curves.easeIn),
-    //     ],
-    //   ),
-    // );
   }
 }

@@ -5,18 +5,22 @@ import 'package:notez/features/authentication/domain/repository/authentication_r
 import 'package:notez/features/authentication/domain/use_cases/authenticate_anonymously.dart';
 import 'package:notez/features/authentication/domain/use_cases/authenticate_with_apple.dart';
 import 'package:notez/features/authentication/domain/use_cases/authenticate_with_google.dart';
+import 'package:notez/features/authentication/domain/use_cases/get_current_user.dart';
+import 'package:notez/features/authentication/domain/use_cases/sign_out.dart';
 import 'package:notez/features/authentication/presentation/presentation_logic_holders/authentication_bloc.dart';
 
 final sl = GetIt.instance;
 
 void init() {
   sl
-    ..registerFactory(() => AuthenticationBloc(sl(), sl(), sl()))
+    ..registerFactory(() => AuthenticationBloc(sl(), sl(), sl(), sl(), sl()))
     ..registerLazySingleton<AuthenticationRepository>(() => AuthenticationRepositoryImpl(sl()))
     ..registerLazySingleton<AuthenticationRemoteDataSource>(
       () => AuthenticationRemoteDataSourceImpl(),
     )
     ..registerLazySingleton(() => AuthenticateWithGoogle(sl()))
     ..registerLazySingleton(() => AuthenticateWithApple(sl()))
-    ..registerLazySingleton(() => AuthenticateAnonymously(sl()));
+    ..registerLazySingleton(() => AuthenticateAnonymously(sl()))
+    ..registerLazySingleton(() => SignOut(sl()))
+    ..registerLazySingleton(() => GetCurrentUser(sl()));
 }

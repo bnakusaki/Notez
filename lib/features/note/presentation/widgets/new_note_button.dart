@@ -18,13 +18,17 @@ class _NewNoteButtonState extends State<NewNoteButton> with TickerProviderStateM
         builder: (context, noteCreationState) {
       switch (noteCreationState) {
         case Loading():
-          return const CircularProgressIndicator(color: Colors.black);
+          return const CircularProgressIndicator();
         default:
-          return IconButton(
-            onPressed: () async => await context.read<AllNotesPageStateCubit>().createNote(),
-            icon: const Icon(
-              Ionicons.add,
-              size: 60,
+          return InkWell(
+            borderRadius: BorderRadius.circular(10.0),
+            onTap: () async => await context.read<AllNotesPageStateCubit>().createNote(),
+            child: const Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Icon(
+                Ionicons.add,
+                size: 60,
+              ),
             ),
           );
       }

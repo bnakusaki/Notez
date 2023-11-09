@@ -23,7 +23,21 @@ ThemeData theme = ThemeData(
       fixedSize: const Size(350, 50),
     ),
   ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      fixedSize: const Size(350, 50),
+    ),
+  ),
   iconButtonTheme: IconButtonThemeData(
     style: IconButton.styleFrom(),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10.0),
+    ),
+    focusedBorder: const OutlineInputBorder(
+      borderSide: BorderSide(width: 1.0),
+    ),
   ),
 );

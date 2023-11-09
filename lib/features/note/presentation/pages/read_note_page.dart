@@ -14,8 +14,7 @@ class _ReadNotePageState extends State<ReadNotePage> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('================${context.read<CurrentNoteCubit>().state!.content}');
-    controller.text = context.read<CurrentNoteCubit>().state!.content ?? 'Nothing here';
+    controller.text = context.read<CurrentNoteCubit>().state!.content ?? '';
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -23,7 +22,11 @@ class _ReadNotePageState extends State<ReadNotePage> {
         controller: controller,
         maxLines: 10000,
         autofocus: true,
-        decoration: const InputDecoration(border: InputBorder.none),
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+        ),
         onChanged: (value) async {
           context.read<CurrentNoteCubit>().updateContent(value);
           await context.read<CurrentNoteCubit>().updateNote();

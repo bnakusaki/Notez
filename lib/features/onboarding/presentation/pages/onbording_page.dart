@@ -28,7 +28,9 @@ class OnboardingPage extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => context.goNamed(RouteNames.signIn),
-              style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 20.0)),
+              style: TextButton.styleFrom(
+                fixedSize: const Size(150, 50),
+              ),
               child: Text(l10n.signInButtonLabel),
             ),
           ],
@@ -65,6 +67,9 @@ class OnboardingPage extends StatelessWidget {
               const SizedBox(width: 15.0),
               TextButton(
                 onPressed: () {},
+                style: TextButton.styleFrom(
+                  fixedSize: const Size(150, 50),
+                ),
                 child: Text(l10n.privacyAndTermsButtonLabel),
               ),
             ],

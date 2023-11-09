@@ -6,6 +6,8 @@ import 'package:notez/features/authentication/domain/entities/federated_provider
 import 'package:notez/features/authentication/domain/use_cases/authenticate_anonymously.dart';
 import 'package:notez/features/authentication/domain/use_cases/authenticate_with_apple.dart';
 import 'package:notez/features/authentication/domain/use_cases/authenticate_with_google.dart';
+import 'package:notez/features/authentication/domain/use_cases/get_current_user.dart';
+import 'package:notez/features/authentication/domain/use_cases/sign_out.dart';
 import 'package:notez/features/authentication/presentation/presentation_logic_holders/authentication_state.dart';
 import 'package:notez/features/note/note_dependency_injection.dart';
 import 'package:notez/shared/exceptions.dart';
@@ -15,11 +17,15 @@ class AuthenticationBloc {
     this._authenticateWithGoogle,
     this._authenticateWithApple,
     this._authenticateAnonymously,
+    this._signOut,
+    this._getCurrentUser,
   );
 
   final AuthenticateWithGoogle _authenticateWithGoogle;
   final AuthenticateWithApple _authenticateWithApple;
   final AuthenticateAnonymously _authenticateAnonymously;
+  final SignOut _signOut;
+  final GetCurrentUser _getCurrentUser;
 
   Future<Either<Exception, UserCredential>> authenticateWithGoogle() async =>
       await _authenticateWithGoogle();
@@ -27,6 +33,8 @@ class AuthenticationBloc {
       await _authenticateWithApple();
   Future<Either<Exception, UserCredential>> authenticateAnonymously() async =>
       await _authenticateAnonymously();
+  Future<void> signOut() async => await _signOut();
+  User? getCurrentUser() => _getCurrentUser();
 }
 
 class AuthenticateUserCubit extends Cubit<AuthenticationState> {
