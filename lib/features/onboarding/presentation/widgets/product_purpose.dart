@@ -11,7 +11,6 @@ class ProductPurpose extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final white = Theme.of(context).colorScheme.onBackground;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
@@ -23,8 +22,8 @@ class ProductPurpose extends StatelessWidget {
             Text(
               l10n.appName,
               style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                    color: white,
                     fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
             ),
             Padding(
@@ -32,15 +31,15 @@ class ProductPurpose extends StatelessWidget {
               child: Text(
                 l10n.productPurpose1,
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      color: white,
                       fontWeight: FontWeight.w600,
+                      color: Colors.black,
                     ),
               ),
             ),
             Text(
               l10n.productPurpose2,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: white,
+                    color: Colors.black,
                   ),
             ),
             const SizedBox(height: 20.0),

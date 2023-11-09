@@ -7,8 +7,20 @@ import 'package:notez/features/note/presentation/presentation_logic_holders/note
 import 'package:notez/features/note/presentation/widgets/new_note_button.dart';
 import 'package:notez/features/note/presentation/widgets/note_object.dart';
 
-class AllNotesPage extends StatelessWidget {
+class AllNotesPage extends StatefulWidget {
   const AllNotesPage({super.key});
+
+  @override
+  State<AllNotesPage> createState() => _AllNotesPageState();
+}
+
+class _AllNotesPageState extends State<AllNotesPage> {
+  late Future notes;
+  @override
+  void initState() {
+    super.initState();
+    notes = sl<NoteBloc>().getNotes();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +29,7 @@ class AllNotesPage extends StatelessWidget {
       body: BlocBuilder<AllNotesPageStateCubit, FutureOperationState>(
         builder: (context, allNotesState) {
           return FutureBuilder(
-            future: sl<NoteBloc>().getNotes(),
+            future: notes,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 debugPrint(snapshot.error.toString());

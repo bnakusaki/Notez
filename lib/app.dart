@@ -37,6 +37,7 @@ class Notez extends StatelessWidget {
       child: BlocBuilder<AuthenticateUserCubit, AuthenticationState>(
         builder: (context, authenticationState) {
           return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
             theme: theme,
             title: 'Notez',
             localizationsDelegates: AppLocalizations.localizationsDelegates,

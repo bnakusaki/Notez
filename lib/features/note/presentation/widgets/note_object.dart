@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ionicons/ionicons.dart';
+import 'package:intl/intl.dart';
 import 'package:notez/features/note/domain/entities/note.dart';
 import 'package:notez/features/note/presentation/presentation_logic_holders/all_notes_page_state.dart';
-import 'package:notez/shared/widgets/icon_button_with_label.dart';
 
 class NoteObject extends StatelessWidget {
   const NoteObject({super.key, required this.note});
@@ -12,13 +11,52 @@ class NoteObject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButtonWithLabel(
-      onTap: () {
-        context.read<CurrentNoteCubit>().setNote(note);
-        context.go('/readNote');
-      },
-      icon: Ionicons.document_outline,
-      label: note.title,
+    String content = note.content ?? 'No content';
+    if (note.content == '') {
+      content = 'No content';
+    }
+    return SizedBox(
+      width: 300,
+      child: Card(
+        child: InkWell(
+          onTap: () {
+            context.read<CurrentNoteCubit>().setNote(note);
+            context.go('/readNote');
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  note.title,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Text(
+                  content,
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 10.0),
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Last modified: ',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      TextSpan(
+                        text: DateFormat('EEE, MMM d, y').format(note.lastUpdated),
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
