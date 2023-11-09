@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:notez/features/onboarding/presentation/widgets/onboarding_image.dart';
 import 'package:notez/features/onboarding/presentation/widgets/product_purpose.dart';
-import 'package:notez/features/onboarding/presentation/widgets/purpose_illustration_by_image.dart';
 import 'package:notez/navigation/route_names.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -18,11 +18,9 @@ class OnboardingPage extends StatelessWidget {
     });
 
     final l10n = AppLocalizations.of(context)!;
-    final colorScheme = Theme.of(context).colorScheme;
 
     return LayoutBuilder(
       builder: (context, constraints) => Scaffold(
-        backgroundColor: colorScheme.scrim,
         appBar: AppBar(
           title: Text(l10n.appName),
           centerTitle: false,
@@ -34,7 +32,6 @@ class OnboardingPage extends StatelessWidget {
               child: Text(l10n.signInButtonLabel),
             ),
           ],
-          backgroundColor: colorScheme.scrim,
         ),
         body: SafeArea(
             minimum: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -43,7 +40,7 @@ class OnboardingPage extends StatelessWidget {
                 child: constraints.maxWidth < 763
                     ? const Column(
                         children: [
-                          PurposeIllustrarionByImage(),
+                          OnboardingImage(),
                           SizedBox(height: 20.0),
                           ProductPurpose(),
                         ],
@@ -51,7 +48,7 @@ class OnboardingPage extends StatelessWidget {
                     : const Row(
                         children: [
                           Expanded(child: ProductPurpose()),
-                          Expanded(child: PurposeIllustrarionByImage()),
+                          Expanded(child: OnboardingImage()),
                         ],
                       ),
               ),

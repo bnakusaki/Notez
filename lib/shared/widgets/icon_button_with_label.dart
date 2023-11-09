@@ -22,6 +22,7 @@ class IconButtonWithLabel extends StatelessWidget {
           Icon(
             icon,
             size: 100.0,
+            color: Colors.black,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),

@@ -14,6 +14,7 @@ class _ReadNotePageState extends State<ReadNotePage> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('================${context.read<CurrentNoteCubit>().state!.content}');
     controller.text = context.read<CurrentNoteCubit>().state!.content ?? 'Nothing here';
 
     return Scaffold(
@@ -26,7 +27,6 @@ class _ReadNotePageState extends State<ReadNotePage> {
         onChanged: (value) async {
           context.read<CurrentNoteCubit>().updateContent(value);
           await context.read<CurrentNoteCubit>().updateNote();
-          debugPrint('updated');
         },
       ),
     );

@@ -8,13 +8,15 @@
     "getStartedButtonLabel": "Get started",
     "cancelButtonLabel": "Cancel",
     "alertDialogErrorTitle": "Error",
-    "google": "Google",
-    "apple": "Apple",
+    "continueWithGoogleButtonLable": "Continue with Google",
+    "continueWithAppleButtonLable": "Continue with Apple",
     "currentPath": "Notez > {value}",
     "@currentPath": {
         "value": {
             "type": "String"
         }
     },
-    "allNotesSideMenuTabLabel": "All notes"
+    "allNotesSideMenuTabLabel": "All notes",
+    "signInPageTitle": "Log into your account",
+    "signInPageMessage": "Unlock your projects on any device with a simple sign-in to Notez"
 }

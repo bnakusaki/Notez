@@ -51,12 +51,13 @@ class NoteModel extends Note {
   }
 
   factory NoteModel.fromJson(Map<String, dynamic> json) {
-    debugPrint(json.toString());
+    debugPrint(json['content']);
     return NoteModel(
       id: json['id'],
       title: json['title'],
       createdOn: DateTime.parse(json['createdOn']),
       lastUpdated: DateTime.parse(json['lastUpdated']),
+      content: json['content'],
       kind: toKind(json['kind']),
       todos: json['todo'],
       folder: json['folder'],
@@ -89,6 +90,7 @@ class NoteModel extends Note {
     return NoteModel(
       id: id ?? this.id,
       title: title ?? this.title,
+      content: content ?? this.content,
       createdOn: createdOn ?? this.createdOn,
       lastUpdated: lastUpdated ?? this.lastUpdated,
       kind: kind ?? this.kind,

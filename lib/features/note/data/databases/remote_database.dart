@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:notez/features/note/data/models/note_model.dart';
 
 abstract class RemoteDatabase {
@@ -36,26 +36,11 @@ class RemoteDatabaseImpl implements RemoteDatabase {
         .get()
         .then(
           (value) => value.docs.map((e) {
-            return NoteModel.fromJson(e.data()).copyWith(id: e.id);
+            final response = NoteModel.fromJson(e.data()).copyWith(id: e.id);
+            debugPrint('==== ${response.content}');
+            return response;
           }).toList(),
         );
-
-    // debugPrint(notesPath.docs[0].data()['notes'].toString());
-    // final documentRef = (notesPath.docs[0].data()['notes'] as DocumentReference).path;
-    // final notes = await FirebaseFirestore.instance.doc(documentRef).get();
-
-    // debugPrint(notes.data().toString());
-
-    // .snapshots()
-    // .map(
-    //   (event) => event.docs.map(
-    //     (e) {
-    //       return (e['notes'] as List)
-    //           .map((json) => NoteModel.fromJson(json.data()['notes']))
-    //           .toList();
-    //     },
-    //   ).toList()[0],
-    // );
   }
 
   @override
@@ -79,8 +64,6 @@ class RemoteDatabaseImpl implements RemoteDatabase {
         .collection('notes')
         .doc(noteModel.id);
 
-    debugPrint('updated notes${noteModel.content}');
     await docRef.update({'content': noteModel.content});
-    debugPrint('updated notes${noteModel.id}');
   }
 }
