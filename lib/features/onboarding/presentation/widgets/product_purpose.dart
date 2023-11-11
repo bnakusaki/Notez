@@ -12,46 +12,37 @@ class ProductPurpose extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-      child: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              l10n.appName,
-              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            l10n.appName,
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
+            child: Text(
+              l10n.productPurpose1,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
-              child: Text(
-                l10n.productPurpose1,
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-              ),
-            ),
-            Text(
-              l10n.productPurpose2,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: Colors.black,
-                  ),
-            ),
-            const SizedBox(height: 20.0),
-            BlocBuilder<AuthenticateAnonymouslyCubit, AuthenticationState>(
-                builder: (context, authenticationState) {
-              switch (authenticationState) {
-                case Loading():
-                  return const CircularProgressIndicator();
-                case Failure():
-                  WidgetsBinding.instance.addPostFrameCallback(
-                    (_) {
-                      showDialog(
+          ),
+          Text(
+            l10n.productPurpose2,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            child: BlocBuilder<AuthenticateAnonymouslyCubit, AuthenticationState>(
+              builder: (context, authenticationState) {
+                switch (authenticationState) {
+                  case Loading():
+                    return const CircularProgressIndicator();
+                  case Failure():
+                    WidgetsBinding.instance.addPostFrameCallback(
+                      (_) {
+                        showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog.adaptive(
@@ -64,17 +55,19 @@ class ProductPurpose extends StatelessWidget {
                                 )
                               ],
                             );
-                          });
-                    },
-                  );
-              }
-              return FilledButton(
-                onPressed: () async => await context.read<AuthenticateAnonymouslyCubit>().call(),
-                child: Text(l10n.getStartedButtonLabel),
-              );
-            })
-          ].animate(interval: .300.seconds).fade().slide(),
-        ),
+                          },
+                        );
+                      },
+                    );
+                }
+                return FilledButton(
+                  onPressed: () async => await context.read<AuthenticateAnonymouslyCubit>().call(),
+                  child: Text(l10n.getStartedButtonLabel),
+                );
+              },
+            ),
+          ),
+        ].animate(interval: .100.seconds).fade(),
       ),
     );
   }

@@ -7,14 +7,18 @@ class OnboardingImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      ImageAssets.onboardingScreenBacground,
-      // fit: BoxFit.cover,
-      height: MediaQuery.sizeOf(context).height * 0.7,
-    ).animate(delay: .300.seconds).slideX(
-          begin: 1,
-          curve: Curves.easeIn,
-          duration: 1.5.seconds,
-        );
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20.0),
+      height: MediaQuery.sizeOf(context).height * 0.5,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        image: const DecorationImage(
+          image: AssetImage(
+            ImageAssets.onboardingScreenBackground,
+          ),
+          // fit: BoxFit.cover,
+        ),
+      ),
+    ).animate(delay: .300.seconds).fade();
   }
 }
