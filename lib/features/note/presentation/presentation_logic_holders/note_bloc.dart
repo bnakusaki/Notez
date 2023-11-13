@@ -21,8 +21,14 @@ class NoteBloc {
   final DeleteNote _deleteNote;
   final GetNotes _getNotes;
 
-  Future<Either<Exception, void>> createNote() async => await _createNote();
-  Future<Either<Exception, Note>> readNote(int id) async => await _readNote(id);
+  Future<Either<Exception, bool>> createNote() async => await _createNote();
+  Future<Note> readNote(String id) async {
+    final response = await _readNote(id);
+    return response.fold((l) {
+      throw '';
+    }, (r) => r);
+  }
+
   Future<void> updateNote(Note note) async => await _updateNote(note);
   Future<Either<Exception, int>> deleteNote(int id) async => await _deleteNote(id);
   Future<List<Note>> getNotes() async => await _getNotes();

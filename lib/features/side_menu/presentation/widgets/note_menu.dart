@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 import 'package:notez/features/home/data/models/menu_item_model.dart';
-import 'package:notez/features/home/presentation/presentation_logic_holder/home_state.dart';
-import 'package:notez/navigation/route_names.dart';
 
-class SideMenu extends StatelessWidget {
-  const SideMenu({
+class NoteMenu extends StatelessWidget {
+  const NoteMenu({
     super.key,
   });
 
@@ -18,11 +14,8 @@ class SideMenu extends StatelessWidget {
 
     List<MenuItemModel> menuItems = [
       MenuItemModel(
-        label: l10n.allNotesSideMenuTabLabel,
-        onPressed: () {
-          context.read<MenuStateCubit>().setMenu(l10n.allNotesSideMenuTabLabel);
-          context.goNamed(RouteNames.home);
-        },
+        label: 'Delete',
+        onPressed: () {},
       ),
     ];
 

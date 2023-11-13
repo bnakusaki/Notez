@@ -1,39 +1,44 @@
-import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:notez/shared/exceptions.dart';
+import 'package:notez/features/authentication/data/model/user_model.dart';
+import 'package:notez/shared/exceptions/auth_exception.dart';
 
 abstract class AuthenticationRemoteDataSource {
-  Future<Either<Exception, UserCredential>> authenticateWithGoogle();
-  Future<Either<Exception, UserCredential>> authenticateWithApple();
-  Future<Either<Exception, UserCredential>> authenticateAnonymously();
+  Future<UserModel> authenticateWithGoogle();
+  Future<UserModel> authenticateWithApple();
+  Future<UserModel> authenticateAnonymously();
+  UserModel? currentUser();
   Future<void> signOut();
-  User? getCurrentUser();
+
+  /// Stream of [UserModel] which will emit the current user when
+  /// the authentication state changes.
+  ///
+  /// Emits [null] if the user is not authenticated.
+  Stream<User?> user();
 }
 
 class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSource {
   @override
-  Future<Either<Exception, UserCredential>> authenticateWithGoogle() async {
+  Future<UserModel> authenticateWithGoogle() async {
     try {
       GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
       googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
       googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
 
-      GoogleAuthProvider googleProvider0 = GoogleAuthProvider();
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithPopup(googleProvider);
 
-      googleProvider0.addScope('https://www.googleapis.com/auth/contacts.readonly');
-      googleProvider0.setCustomParameters({'login_hint': 'user@example.com'});
+      final UserModel user = UserModel.fromUserCredential(userCredential);
 
-      final response = await FirebaseAuth.instance.signInWithPopup(googleProvider0);
-      return Right(response);
-    } catch (e) {
-      return Left(AuthException("$e"));
+      return user;
+    } on FirebaseAuthException catch (e) {
+      throw AuthenticateWithFederatedProviderFailure(e.message!);
     }
   }
 
   @override
-  Future<Either<Exception, UserCredential>> authenticateWithApple() async {
+  Future<UserModel> authenticateWithApple() async {
     try {
       final appleProvider = AppleAuthProvider();
       if (kIsWeb) {
@@ -43,30 +48,33 @@ class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSour
       }
       final appleProvider0 = AppleAuthProvider();
 
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithPopup(appleProvider0);
-      // Keep the authorization code returned from Apple platforms
-      String? authCode = userCredential.additionalUserInfo?.authorizationCode;
-      // Revoke Apple auth token
-      await FirebaseAuth.instance.revokeTokenWithAuthorizationCode(authCode!);
-      return Right(userCredential);
-    } catch (e) {
-      return Left(AuthException("$e"));
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithPopup(appleProvider0);
+
+      final UserModel user = UserModel.fromUserCredential(userCredential);
+      return user;
+    } on FirebaseAuthException catch (e) {
+      throw AuthenticateWithFederatedProviderFailure(e.message!);
     }
   }
 
   @override
-  Future<Either<Exception, UserCredential>> authenticateAnonymously() async {
-    try {
-      final response = await FirebaseAuth.instance.signInAnonymously();
-      return Right(response);
-    } catch (e) {
-      return Left(AuthException("$e"));
-    }
+  Future<UserModel> authenticateAnonymously() async {
+    final UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+    final UserModel user = UserModel.fromUserCredential(userCredential);
+    return user;
   }
 
   @override
   Future<void> signOut() async => await FirebaseAuth.instance.signOut();
 
   @override
-  User? getCurrentUser() => FirebaseAuth.instance.currentUser;
+  Stream<User?> user() => FirebaseAuth.instance.authStateChanges();
+
+  @override
+  UserModel? currentUser() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return null;
+    return UserModel.fromUser(user);
+  }
 }

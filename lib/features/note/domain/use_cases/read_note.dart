@@ -6,5 +6,5 @@ class ReadNote {
   ReadNote(this.repository);
   final NoteRepository repository;
 
-  Future<Either<Exception, Note>> call(int id) async => await repository.readNote(id);
+  Future<Either<Exception, Note>> call(String id) async => await repository.readNote(id);
 }

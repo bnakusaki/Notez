@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:notez/features/note/data/models/note_model.dart';
 
 abstract class RemoteDatabase {
-  Future<Either<Exception, void>> createNote();
-  Future<Either<Exception, NoteModel>> readNote(int id);
+  Future<Either<Exception, bool>> createNote();
+  Future<NoteModel> readNote(String noteId);
   updateNote(NoteModel noteModel);
   Future<Either<Exception, int>> deleteNote(int id);
   Future<List<NoteModel>> getNotes();
@@ -14,13 +14,13 @@ abstract class RemoteDatabase {
 
 class RemoteDatabaseImpl implements RemoteDatabase {
   @override
-  Future<Either<Exception, void>> createNote() async {
+  Future<Either<Exception, bool>> createNote() async {
     try {
       final currentUser = FirebaseAuth.instance.currentUser!;
       final note = NoteModel.newNote().toJson();
       final db = FirebaseFirestore.instance;
       db.collection('userNotes').doc(currentUser.uid).collection('notes').add(note);
-      return const Right(null);
+      return const Right(true);
     } catch (e) {
       rethrow;
     }
@@ -33,11 +33,11 @@ class RemoteDatabaseImpl implements RemoteDatabase {
         .collection('userNotes')
         .doc(currentUser.uid)
         .collection('notes')
+        .orderBy('lastUpdated', descending: true)
         .get()
         .then(
           (value) => value.docs.map((e) {
             final response = NoteModel.fromJson(e.data()).copyWith(id: e.id);
-            debugPrint('==== ${response.content}');
             return response;
           }).toList(),
         );
@@ -50,9 +50,17 @@ class RemoteDatabaseImpl implements RemoteDatabase {
   }
 
   @override
-  Future<Either<Exception, NoteModel>> readNote(int id) {
-    // TODO: implement readNote
-    throw UnimplementedError();
+  Future<NoteModel> readNote(String noteId) async {
+    final currentUser = FirebaseAuth.instance.currentUser!;
+    final note = await FirebaseFirestore.instance
+        .collection('userNotes')
+        .doc(currentUser.uid)
+        .collection('notes')
+        .doc(noteId)
+        .get();
+    final response = NoteModel.fromJson(note.data()!);
+    debugPrint(response.createdOn.toString());
+    return response;
   }
 
   @override

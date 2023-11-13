@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:notez/features/home/presentation/widgets/header.dart';
-import 'package:notez/features/home/presentation/widgets/side_menu.dart';
 import 'package:notez/navigation/route_names.dart';
 
 class HomePage extends StatelessWidget {
@@ -24,16 +22,16 @@ class HomePage extends StatelessWidget {
         minimum: const EdgeInsets.all(10.0),
         child: Row(
           children: [
-            const Expanded(
-              child: SideMenu(),
-            ),
+            // const Expanded(
+            //   child: SideMenu(),
+            // ),
             Expanded(
               flex: 10,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Header(),
-                  const SizedBox(height: 20),
+                  // const Header(),
+                  // const SizedBox(height: 20),
                   Expanded(child: child),
                 ],
               ),

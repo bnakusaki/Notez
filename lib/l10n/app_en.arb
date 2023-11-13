@@ -16,7 +16,7 @@
             "type": "String"
         }
     },
-    "allNotesSideMenuTabLabel": "All notes",
+    "allNotesSideMenuTabLabel": "Notes",
     "signInPageTitle": "Log into your account",
     "signInPageMessage": "Unlock your projects on any device with a simple sign-in to Notez"
 }

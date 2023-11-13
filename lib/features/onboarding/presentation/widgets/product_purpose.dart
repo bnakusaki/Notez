@@ -36,29 +36,34 @@ class ProductPurpose extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: BlocBuilder<AuthenticateAnonymouslyCubit, AuthenticationState>(
               builder: (context, authenticationState) {
-                switch (authenticationState) {
-                  case Loading():
+                switch (authenticationState.status) {
+                  case AuthenticationStatus.processing:
                     return const CircularProgressIndicator();
-                  case Failure():
-                    WidgetsBinding.instance.addPostFrameCallback(
-                      (_) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog.adaptive(
-                              title: Text(l10n.alertDialogErrorTitle),
-                              content: Text(authenticationState.message),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text(l10n.cancelButtonLabel),
-                                )
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    );
+                  case AuthenticationStatus.unauthenticated:
+                    if (authenticationState.message != null) {
+                      WidgetsBinding.instance.addPostFrameCallback(
+                        (_) {
+                          showAdaptiveDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog.adaptive(
+                                title: Text(l10n.alertDialogErrorTitle),
+                                content: Text(
+                                  '${authenticationState.message!}\n${authenticationState.details}',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('Cancel'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      );
+                    }
+                  default:
                 }
                 return FilledButton(
                   onPressed: () async => await context.read<AuthenticateAnonymouslyCubit>().call(),

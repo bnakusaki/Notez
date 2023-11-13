@@ -16,22 +16,22 @@ class _NewNoteButtonState extends State<NewNoteButton> with TickerProviderStateM
   Widget build(BuildContext context) {
     return BlocBuilder<AllNotesPageStateCubit, FutureOperationState>(
         builder: (context, noteCreationState) {
-      switch (noteCreationState) {
-        case Loading():
-          return const CircularProgressIndicator();
-        default:
-          return InkWell(
-            borderRadius: BorderRadius.circular(10.0),
-            onTap: () async => await context.read<AllNotesPageStateCubit>().createNote(),
-            child: const Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Icon(
-                Ionicons.add,
-                size: 60,
-              ),
-            ),
-          );
-      }
+      debugPrint(noteCreationState.toString());
+      return InkWell(
+        borderRadius: BorderRadius.circular(10.0),
+        onTap: noteCreationState == Loading()
+            ? null
+            : () async => await context.read<AllNotesPageStateCubit>().createNote(),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: noteCreationState == Loading()
+              ? const CircularProgressIndicator()
+              : const Icon(
+                  Ionicons.add,
+                  size: 60,
+                ),
+        ),
+      );
     });
   }
 }

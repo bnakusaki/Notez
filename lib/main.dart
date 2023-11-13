@@ -5,8 +5,9 @@ import 'package:notez/firebase_options.dart';
 
 import 'injection_container.dart' as injection_container;
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   injection_container.init();

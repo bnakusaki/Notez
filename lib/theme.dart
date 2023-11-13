@@ -4,7 +4,6 @@ ThemeData theme = ThemeData(
   colorScheme: const ColorScheme.light(
     primary: Colors.black,
   ),
-
   textTheme: const TextTheme(
     headlineLarge: TextStyle(
       color: Colors.black,
@@ -22,18 +21,15 @@ ThemeData theme = ThemeData(
     foregroundColor: Colors.black,
     centerTitle: false,
   ),
-
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
       fixedSize: const Size(150, 50),
     ),
   ),
-
   bottomAppBarTheme: const BottomAppBarTheme(
     padding: EdgeInsets.symmetric(horizontal: 20.0),
     height: 70.0,
   ),
-
   filledButtonTheme: FilledButtonThemeData(
     style: FilledButton.styleFrom(
       padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
@@ -42,11 +38,24 @@ ThemeData theme = ThemeData(
       ),
     ),
   ),
-
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       fixedSize: const Size(350, 50),
+    ),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10.0),
+      borderSide: const BorderSide(width: 0.5),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10.0),
+      borderSide: const BorderSide(width: 1.5),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10.0),
+      borderSide: const BorderSide(width: 0.5),
     ),
   ),
 );

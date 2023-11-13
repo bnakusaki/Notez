@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:notez/features/header/presentation/presentation_logic_holders/header_title_state.dart';
 import 'package:notez/features/note/domain/entities/note.dart';
 import 'package:notez/features/note/presentation/presentation_logic_holders/all_notes_page_state.dart';
 
@@ -19,9 +20,10 @@ class NoteObject extends StatelessWidget {
       width: 300,
       child: Card(
         child: InkWell(
-          onTap: () {
-            context.read<CurrentNoteCubit>().setNote(note);
-            context.go('/readNote');
+          onTap: () async {
+            context.go('/readNote/${note.id}');
+            context.read<HeaderTitleStateCubit>().setHeaderTitle(note.title);
+            await context.read<CurrentNoteCubit>().setNote(note.id!);
           },
           child: Padding(
             padding: const EdgeInsets.all(10.0),

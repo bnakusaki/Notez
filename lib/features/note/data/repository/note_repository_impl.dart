@@ -15,10 +15,16 @@ class NoteRepositoryImpl implements NoteRepository {
   final RemoteDatabase remoteDatabase;
 
   @override
-  Future<Either<Exception, void>> createNote() async => await remoteDatabase.createNote();
+  Future<Either<Exception, bool>> createNote() async => await remoteDatabase.createNote();
 
   @override
-  Future<Either<Exception, Note>> readNote(int id) async => await localDatabase.readNote(id);
+  Future<Either<Exception, Note>> readNote(String id) async {
+    try {
+      return Right(await remoteDatabase.readNote(id));
+    } catch (e) {
+      return Left(e as Exception);
+    }
+  }
 
   @override
   Future<void> updateNote(Note note) async {
@@ -28,7 +34,7 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
-  Future<Either<Exception, int>> deleteNote(int id) async => await localDatabase.deleteNote(id);
+  Future<Either<Exception, int>> deleteNote(id) async => await localDatabase.deleteNote(id);
 
   @override
   Future<List<NoteModel>> getNotes() => remoteDatabase.getNotes();

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notez/features/note/domain/entities/note.dart';
 import 'package:notez/features/note/note_dependency_injection.dart';
@@ -22,9 +21,9 @@ class AllNotesPageStateCubit extends Cubit<FutureOperationState> {
 class CurrentNoteCubit extends Cubit<Note?> {
   CurrentNoteCubit() : super(null);
 
-  void setNote(Note? note) {
-    debugPrint(note.toString());
-    return emit(note);
+  Future<void> setNote(String noteId) async {
+    final response = await sl<NoteBloc>().readNote(noteId);
+    return emit(response);
   }
 
   void updateContent(String? content) {

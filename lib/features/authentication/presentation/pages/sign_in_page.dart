@@ -78,56 +78,63 @@ class SignInPage extends StatelessWidget {
                   const SizedBox(height: 30),
                   BlocBuilder<AuthenticateUserCubit, AuthenticationState>(
                     builder: (context, authenticationState) {
-                      switch (authenticationState) {
-                        case Loading():
+                      switch (authenticationState.status) {
+                        case AuthenticationStatus.processing:
                           return const CircularProgressIndicator();
-                        case Failure():
+                        case AuthenticationStatus.failedToAuthenticate:
                           WidgetsBinding.instance.addPostFrameCallback(
                             (_) {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog.adaptive(
-                                      title: Text(l10n.alertDialogErrorTitle),
-                                      content: Text(authenticationState.message),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () => Navigator.pop(context),
-                                          child: Text(l10n.cancelButtonLabel),
-                                        )
-                                      ],
-                                    );
-                                  });
+                              showAdaptiveDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog.adaptive(
+                                    title: Text(l10n.alertDialogErrorTitle),
+                                    content: Text(
+                                      '${authenticationState.message!}\n${authenticationState.details}',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Cancel'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                           );
+                        case AuthenticationStatus.unauthenticated:
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(
+                              authenticationButtonModels.length,
+                              (index) {
+                                final button = authenticationButtonModels[index];
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                  child: OutlinedButton.icon(
+                                    onPressed: () async {
+                                      await context
+                                          .read<AuthenticateUserCubit>()
+                                          .call(button.federatedProvider);
+                                    },
+                                    icon: Image.asset(
+                                      button.logoPath,
+                                      height: 30,
+                                    ),
+                                    label: Text(
+                                      button.label,
+                                      style: TextStyle(color: colorScheme.onBackground),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        case AuthenticationStatus.authenticated:
+                          return const Text('Welcome back');
                       }
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                          authenticationButtonModels.length,
-                          (index) {
-                            final button = authenticationButtonModels[index];
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10.0),
-                              child: OutlinedButton.icon(
-                                onPressed: () async {
-                                  await context
-                                      .read<AuthenticateUserCubit>()
-                                      .call(button.federatedProvider);
-                                },
-                                icon: Image.asset(
-                                  button.logoPath,
-                                  height: 30,
-                                ),
-                                label: Text(
-                                  button.label,
-                                  style: TextStyle(color: colorScheme.onBackground),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
+                      return const SizedBox.shrink();
                     },
                   ),
                 ],
