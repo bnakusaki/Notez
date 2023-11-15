@@ -80,8 +80,10 @@ class SignInPage extends StatelessWidget {
                     builder: (context, authenticationState) {
                       switch (authenticationState.status) {
                         case AuthenticationStatus.processing:
+                          debugPrint('processing');
                           return const CircularProgressIndicator();
                         case AuthenticationStatus.failedToAuthenticate:
+                          debugPrint('failed to authenticate');
                           WidgetsBinding.instance.addPostFrameCallback(
                             (_) {
                               showAdaptiveDialog(
@@ -90,7 +92,7 @@ class SignInPage extends StatelessWidget {
                                   return AlertDialog.adaptive(
                                     title: Text(l10n.alertDialogErrorTitle),
                                     content: Text(
-                                      '${authenticationState.message!}\n${authenticationState.details}',
+                                      authenticationState.message!,
                                     ),
                                     actions: [
                                       TextButton(
@@ -104,6 +106,7 @@ class SignInPage extends StatelessWidget {
                             },
                           );
                         case AuthenticationStatus.unauthenticated:
+                          debugPrint('unauthenticated');
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(
@@ -132,6 +135,7 @@ class SignInPage extends StatelessWidget {
                             ),
                           );
                         case AuthenticationStatus.authenticated:
+                          debugPrint('authenticated');
                           return const Text('Welcome back');
                       }
                       return const SizedBox.shrink();

@@ -7,14 +7,8 @@ abstract class AuthenticationRemoteDataSource {
   Future<UserModel> authenticateWithGoogle();
   Future<UserModel> authenticateWithApple();
   Future<UserModel> authenticateAnonymously();
-  UserModel? currentUser();
   Future<void> signOut();
-
-  /// Stream of [UserModel] which will emit the current user when
-  /// the authentication state changes.
-  ///
-  /// Emits [null] if the user is not authenticated.
-  Stream<User?> user();
+  UserModel? currentUser();
 }
 
 class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSource {
@@ -29,7 +23,7 @@ class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSour
       final UserCredential userCredential =
           await FirebaseAuth.instance.signInWithPopup(googleProvider);
 
-      final UserModel user = UserModel.fromUserCredential(userCredential);
+      final UserModel user = UserModel.fromUser(userCredential.user!);
 
       return user;
     } on FirebaseAuthException catch (e) {
@@ -51,7 +45,7 @@ class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSour
       final UserCredential userCredential =
           await FirebaseAuth.instance.signInWithPopup(appleProvider0);
 
-      final UserModel user = UserModel.fromUserCredential(userCredential);
+      final UserModel user = UserModel.fromUser(userCredential.user!);
       return user;
     } on FirebaseAuthException catch (e) {
       throw AuthenticateWithFederatedProviderFailure(e.message!);
@@ -61,15 +55,14 @@ class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSour
   @override
   Future<UserModel> authenticateAnonymously() async {
     final UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
-    final UserModel user = UserModel.fromUserCredential(userCredential);
+    final UserModel user = UserModel.fromUser(userCredential.user!);
     return user;
   }
 
   @override
-  Future<void> signOut() async => await FirebaseAuth.instance.signOut();
-
-  @override
-  Stream<User?> user() => FirebaseAuth.instance.authStateChanges();
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
 
   @override
   UserModel? currentUser() {

@@ -4,9 +4,12 @@ import 'package:notez/features/authentication/domain/repository/authentication_r
 import 'package:notez/shared/exceptions/auth_exception.dart';
 
 class CurrentUser {
-  CurrentUser(this._authenticationRepository);
+  CurrentUser(this.authenticationRepository);
 
-  final AuthenticationRepository _authenticationRepository;
+  final AuthenticationRepository authenticationRepository;
 
-  Either<AuthException, User?> call() => _authenticationRepository.currentUser();
+  Either<AuthException, User?> call() {
+    final response = authenticationRepository.currentUser();
+    return response;
+  }
 }

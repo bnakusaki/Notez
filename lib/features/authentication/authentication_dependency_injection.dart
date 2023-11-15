@@ -16,8 +16,7 @@ void init() {
     ..registerFactory(() => AuthenticationBloc(sl(), sl(), sl(), sl()))
     ..registerLazySingleton<AuthenticationRepository>(() => AuthenticationRepositoryImpl(sl()))
     ..registerLazySingleton<AuthenticationRemoteDataSource>(
-      () => AuthenticationRemoteDataSourceImpl(),
-    )
+        () => AuthenticationRemoteDataSourceImpl())
     ..registerLazySingleton(() => AuthenticateWithGoogle(sl()))
     ..registerLazySingleton(() => AuthenticateWithApple(sl()))
     ..registerLazySingleton(() => AuthenticateAnonymously(sl()))

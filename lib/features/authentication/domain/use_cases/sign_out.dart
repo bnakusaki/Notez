@@ -3,9 +3,12 @@ import 'package:notez/features/authentication/domain/repository/authentication_r
 import 'package:notez/shared/exceptions/auth_exception.dart';
 
 class SignOut {
-  SignOut(this._authenticationRepository);
+  SignOut(this.authenticationRepository);
 
-  final AuthenticationRepository _authenticationRepository;
+  final AuthenticationRepository authenticationRepository;
 
-  Future<Either<AuthException, void>> call() async => await _authenticationRepository.signOut();
+  Future<Either<AuthException, void>> call() async {
+    final response = await authenticationRepository.signOut();
+    return response;
+  }
 }

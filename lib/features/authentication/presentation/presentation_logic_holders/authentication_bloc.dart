@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notez/features/authentication/domain/entities/federated_provider.dart';
 import 'package:notez/features/authentication/domain/entities/user.dart';
@@ -59,20 +58,19 @@ class AuthenticateUserCubit extends Cubit<AuthenticationState> {
 
   Future call(FederatedProvider federatedProvider) async {
     emit(const AuthenticationState.processing());
+
     try {
       if (federatedProvider == FederatedProvider.google) {
         final bloc = sl<AuthenticationBloc>();
         final response = await bloc.authenticateWithGoogle();
         response.fold(
-          (l) {
-            debugPrint('error');
+          (exception) {
             emit(AuthenticationState.failedToAuthenticate(
-              failureMessage: l.message,
-              failureDetails: l.details,
+              failureMessage: exception.message,
+              failureDetails: exception.details,
             ));
           },
           (user) {
-            debugPrint('data');
             emit(AuthenticationState.authenticated(user));
           },
         );

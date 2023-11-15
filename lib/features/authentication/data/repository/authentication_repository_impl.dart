@@ -1,6 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:flutter/widgets.dart';
 import 'package:notez/features/authentication/data/data_source/remote/authentication_remote_data_source.dart';
 import 'package:notez/features/authentication/domain/entities/user.dart';
 import 'package:notez/features/authentication/domain/repository/authentication_repository.dart';
@@ -10,6 +8,18 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   AuthenticationRepositoryImpl(this._remoteDataSource);
 
   final AuthenticationRemoteDataSource _remoteDataSource;
+
+  @override
+  Future<Either<AuthException, User>> authenticateWithGoogle() async {
+    try {
+      final response = await _remoteDataSource.authenticateWithGoogle();
+      return Right(response);
+    } on AuthException catch (e) {
+      return Left(AuthException(e.message, e.details));
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   @override
   Future<Either<AuthException, User>> authenticateAnonymously() async {
@@ -33,25 +43,6 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } catch (e) {
       rethrow;
     }
-  }
-
-  @override
-  Future<Either<AuthException, User>> authenticateWithGoogle() async {
-    try {
-      final response = await _remoteDataSource.authenticateWithGoogle();
-      debugPrint('data');
-      return Right(response);
-    } on AuthException catch (e) {
-      return Left(AuthException(e.message, e.details));
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  Stream<firebase_auth.User?> user() {
-    // return _remoteDataSource.currentUser();
-    throw UnimplementedError();
   }
 
   @override

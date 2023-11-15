@@ -49,7 +49,7 @@ class ProductPurpose extends StatelessWidget {
                               return AlertDialog.adaptive(
                                 title: Text(l10n.alertDialogErrorTitle),
                                 content: Text(
-                                  '${authenticationState.message!}\n${authenticationState.details}',
+                                  authenticationState.message!,
                                 ),
                                 actions: [
                                   TextButton(

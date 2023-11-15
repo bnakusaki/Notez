@@ -19,7 +19,7 @@ class RemoteDatabaseImpl implements RemoteDatabase {
       final currentUser = FirebaseAuth.instance.currentUser!;
       final note = NoteModel.newNote().toJson();
       final db = FirebaseFirestore.instance;
-      db.collection('userNotes').doc(currentUser.uid).collection('notes').add(note);
+      await db.collection('userNotes').doc(currentUser.uid).collection('notes').add(note);
       return const Right(true);
     } catch (e) {
       rethrow;

@@ -4,10 +4,12 @@ import 'package:notez/features/authentication/domain/repository/authentication_r
 import 'package:notez/shared/exceptions/auth_exception.dart';
 
 class AuthenticateWithApple {
-  AuthenticateWithApple(this._authenticationRepository);
+  AuthenticateWithApple(this.authenticationRepository);
 
-  final AuthenticationRepository _authenticationRepository;
+  final AuthenticationRepository authenticationRepository;
 
-  Future<Either<AuthException, User>> call() async =>
-      await _authenticationRepository.authenticateWithApple();
+  Future<Either<AuthException, User>> call() async {
+    final response = await authenticationRepository.authenticateWithApple();
+    return response;
+  }
 }

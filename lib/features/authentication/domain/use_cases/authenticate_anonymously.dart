@@ -4,10 +4,12 @@ import 'package:notez/features/authentication/domain/repository/authentication_r
 import 'package:notez/shared/exceptions/auth_exception.dart';
 
 class AuthenticateAnonymously {
-  AuthenticateAnonymously(this._authenticationRepository);
+  AuthenticateAnonymously(this.authenticationRepository);
 
-  final AuthenticationRepository _authenticationRepository;
+  final AuthenticationRepository authenticationRepository;
 
-  Future<Either<AuthException, User>> call() async =>
-      await _authenticationRepository.authenticateAnonymously();
+  Future<Either<AuthException, User>> call() async {
+    final response = await authenticationRepository.authenticateAnonymously();
+    return response;
+  }
 }
