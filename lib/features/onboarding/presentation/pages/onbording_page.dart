@@ -20,9 +20,9 @@ class OnboardingPage extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return OrientationBuilder(
-      builder: (context, orientation) {
+      builder: (BuildContext context, Orientation orientation) {
         return LayoutBuilder(
-          builder: (context, constraints) {
+          builder: (BuildContext context, BoxConstraints constraints) {
             return Scaffold(
               appBar: AppBar(
                 title: Text(l10n.appName),

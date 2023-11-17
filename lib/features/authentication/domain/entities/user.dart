@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 import 'federated_provider.dart';
 
 /// User entity.
-class User {
+class User extends Equatable {
   const User({
     required this.uid,
     required this.displayName,
@@ -12,7 +13,7 @@ class User {
 
   /// Id of a user.
   ///
-  /// Fetched from firebase's [firebase_auth.User.uid].
+  /// Fetched from firebase. ie [firebase_auth.User.uid].
   final String uid;
 
   /// Username of a user.
@@ -24,4 +25,7 @@ class User {
   ///
   /// As provided by the [FederatedProvider].
   final String? photoUrl;
+
+  @override
+  List<Object?> get props => [uid, displayName, photoUrl];
 }

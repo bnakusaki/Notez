@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:notez/features/authentication/data/model/user_model.dart';
 import 'package:notez/shared/exceptions/auth_exception.dart';
 
-abstract class AuthenticationRemoteDataSource {
+abstract class RemoteAuthenticationDatabase {
   Future<UserModel> authenticateWithGoogle();
   Future<UserModel> authenticateWithApple();
   Future<UserModel> authenticateAnonymously();
@@ -11,7 +11,7 @@ abstract class AuthenticationRemoteDataSource {
   UserModel? currentUser();
 }
 
-class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSource {
+class RemoteAuthenticationDatabaseImpl implements RemoteAuthenticationDatabase {
   @override
   Future<UserModel> authenticateWithGoogle() async {
     try {

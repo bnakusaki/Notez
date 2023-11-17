@@ -1,18 +1,18 @@
 import 'package:dartz/dartz.dart';
-import 'package:notez/features/authentication/data/data_source/remote/authentication_remote_data_source.dart';
+import 'package:notez/features/authentication/data/data_source/remote/remote_authentication_database.dart';
 import 'package:notez/features/authentication/domain/entities/user.dart';
 import 'package:notez/features/authentication/domain/repository/authentication_repository.dart';
 import 'package:notez/shared/exceptions/auth_exception.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
-  AuthenticationRepositoryImpl(this._remoteDataSource);
+  AuthenticationRepositoryImpl(this.remoteDataSource);
 
-  final AuthenticationRemoteDataSource _remoteDataSource;
+  final RemoteAuthenticationDatabase remoteDataSource;
 
   @override
   Future<Either<AuthException, User>> authenticateWithGoogle() async {
     try {
-      final response = await _remoteDataSource.authenticateWithGoogle();
+      final response = await remoteDataSource.authenticateWithGoogle();
       return Right(response);
     } on AuthException catch (e) {
       return Left(AuthException(e.message, e.details));
@@ -24,7 +24,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<AuthException, User>> authenticateAnonymously() async {
     try {
-      final response = await _remoteDataSource.authenticateAnonymously();
+      final response = await remoteDataSource.authenticateAnonymously();
       return Right(response);
     } on AuthException catch (e) {
       return Left(AuthException(e.message, e.details));
@@ -36,7 +36,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<AuthException, User>> authenticateWithApple() async {
     try {
-      final response = await _remoteDataSource.authenticateWithApple();
+      final response = await remoteDataSource.authenticateWithApple();
       return Right(response);
     } on AuthException catch (e) {
       return Left(AuthException(e.message, e.details));
@@ -48,7 +48,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<AuthException, void>> signOut() async {
     try {
-      final response = await _remoteDataSource.signOut();
+      final response = await remoteDataSource.signOut();
       return Right(response);
     } on AuthException catch (e) {
       return Left(AuthException(e.message, e.details));
@@ -60,7 +60,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Either<AuthException, User?> currentUser() {
     try {
-      final response = _remoteDataSource.currentUser();
+      final response = remoteDataSource.currentUser();
       return Right(response);
     } on AuthException catch (e) {
       return Left(AuthException(e.message, e.details));

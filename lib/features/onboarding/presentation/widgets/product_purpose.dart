@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notez/features/authentication/presentation/presentation_logic_holders/authentication_bloc.dart';
 import 'package:notez/features/authentication/presentation/presentation_logic_holders/authentication_state.dart';
+import 'package:notez/shared/widgets/error_dialog.dart';
 
 class ProductPurpose extends StatelessWidget {
   const ProductPurpose({super.key});
@@ -21,57 +22,44 @@ class ProductPurpose extends StatelessWidget {
             l10n.appName,
             style: Theme.of(context).textTheme.headlineLarge,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
-            child: Text(
-              l10n.productPurpose1,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
+          const SizedBox(height: 5.0),
+          Text(
+            l10n.productPurpose1,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
+          const SizedBox(height: 10.0),
           Text(
             l10n.productPurpose2,
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: BlocBuilder<AuthenticateAnonymouslyCubit, AuthenticationState>(
-              builder: (context, authenticationState) {
-                switch (authenticationState.status) {
-                  case AuthenticationStatus.processing:
-                    return const CircularProgressIndicator();
-                  case AuthenticationStatus.unauthenticated:
-                    if (authenticationState.message != null) {
-                      WidgetsBinding.instance.addPostFrameCallback(
-                        (_) {
-                          showAdaptiveDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog.adaptive(
-                                title: Text(l10n.alertDialogErrorTitle),
-                                content: Text(
-                                  authenticationState.message!,
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('Cancel'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      );
-                    }
-                  default:
-                }
-                return FilledButton(
-                  onPressed: () async => await context.read<AuthenticateAnonymouslyCubit>().call(),
-                  child: Text(l10n.getStartedButtonLabel),
-                );
-              },
-            ),
+          const SizedBox(height: 20),
+          BlocBuilder<AuthenticateAnonymouslyCubit, AuthenticationState>(
+            builder: (context, authenticationState) {
+              switch (authenticationState.status) {
+                case AuthenticationStatus.processing:
+                  return const CircularProgressIndicator();
+                case AuthenticationStatus.unauthenticated:
+                  if (authenticationState.message != null) {
+                    WidgetsBinding.instance.addPostFrameCallback(
+                      (_) {
+                        showAdaptiveDialog(
+                          context: context,
+                          builder: (context) {
+                            return ErrorDialog(errorMessage: authenticationState.message!);
+                          },
+                        );
+                      },
+                    );
+                  }
+                default:
+              }
+              return FilledButton(
+                onPressed: () async => await context.read<AuthenticateAnonymouslyCubit>().call(),
+                child: Text(l10n.getStartedButtonLabel),
+              );
+            },
           ),
+          const SizedBox(height: 20),
         ].animate(interval: .100.seconds).fade(),
       ),
     );

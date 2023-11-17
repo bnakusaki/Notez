@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:notez/features/authentication/data/data_source/remote/authentication_remote_data_source.dart';
+import 'package:notez/features/authentication/data/data_source/remote/remote_authentication_database.dart';
 import 'package:notez/features/authentication/data/repository/authentication_repository_impl.dart';
 import 'package:notez/features/authentication/domain/repository/authentication_repository.dart';
 import 'package:notez/features/authentication/domain/use_cases/authenticate_anonymously.dart';
@@ -15,8 +15,7 @@ void init() {
   sl
     ..registerFactory(() => AuthenticationBloc(sl(), sl(), sl(), sl()))
     ..registerLazySingleton<AuthenticationRepository>(() => AuthenticationRepositoryImpl(sl()))
-    ..registerLazySingleton<AuthenticationRemoteDataSource>(
-        () => AuthenticationRemoteDataSourceImpl())
+    ..registerLazySingleton<RemoteAuthenticationDatabase>(() => RemoteAuthenticationDatabaseImpl())
     ..registerLazySingleton(() => AuthenticateWithGoogle(sl()))
     ..registerLazySingleton(() => AuthenticateWithApple(sl()))
     ..registerLazySingleton(() => AuthenticateAnonymously(sl()))
