@@ -11,6 +11,5 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   injection_container.init();
-
   runApp(const Notez());
 }

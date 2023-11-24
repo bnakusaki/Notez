@@ -7,12 +7,9 @@ class OnboardingImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
-      child: Image.asset(
-        ImageAssets.onboardingScreenBackground,
-        height: MediaQuery.sizeOf(context).height * 0.5,
-      ),
+    return Image.asset(
+      ImageAssets.onboardingScreenBackground,
+      height: MediaQuery.sizeOf(context).height * 0.5,
     ).animate(delay: .300.seconds).fade();
   }
 }

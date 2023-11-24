@@ -1,7 +1,7 @@
 {
     "appName": "Notez",
     "companyName": "ODUM",
-    "signInButtonLabel": "Sign in",
+    "logInButtonLabel": "Log in",
     "privacyAndTermsButtonLabel": "Privacy & Terms",
     "productPurpose1": "A Latex solution by ODUM.",
     "productPurpose2": "Change your notes into Latex documents.",
@@ -17,6 +17,13 @@
         }
     },
     "allNotesSideMenuTabLabel": "Notes",
-    "signInPageTitle": "Sign into Notez.",
-    "signInPageMessage": "Unlock your projects on any device with a simple sign-in to Notez."
+    "signInPageTitle": "Log into Notez.",
+    "signInPageMessage": "Unlock your projects on any device with a simple log-in to Notez.",
+    "continueWithFederatedProviderButtonLable": "Continue with {value}",
+    "@continueWithFederatedProviderButtonLable": {
+        "value": {
+            "type": "String"
+        }
+    },
+    "welcomeBackMessage": "Welcome back"
 }

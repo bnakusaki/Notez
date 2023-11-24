@@ -1,31 +1,21 @@
-import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+/// A User entity with properties: uid, displayName, and photoUrl.
+class User {
+  /// The unique identifier for the user.
+  final String uid;
 
-import 'federated_provider.dart';
+  /// The display name of the user.
+  final String? displayName;
 
-/// User entity.
-class User extends Equatable {
+  /// The URL of the user's photo.
+  final String? photoUrl;
+
+  /// Constructor for creating a User instance.
+  /// [uid] is the unique identifier for the user (required).
+  /// [displayName] is the display name of the user (nullable).
+  /// [photoUrl] is the URL of the user's photo (nullable).
   const User({
     required this.uid,
     required this.displayName,
     required this.photoUrl,
   });
-
-  /// Id of a user.
-  ///
-  /// Fetched from firebase. ie [firebase_auth.User.uid].
-  final String uid;
-
-  /// Username of a user.
-  ///
-  /// As provided by the [FederatedProvider].
-  final String? displayName;
-
-  /// Link to the profile picture of a user.
-  ///
-  /// As provided by the [FederatedProvider].
-  final String? photoUrl;
-
-  @override
-  List<Object?> get props => [uid, displayName, photoUrl];
 }

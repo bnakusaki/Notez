@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notez/features/header/presentation/presentation_logic_holders/header_title_state.dart';
+import 'package:notez/features/header/presentation/bloc/header_bloc.dart';
+import 'package:notez/features/header/presentation/bloc/header_event.dart';
 import 'package:notez/features/note/note_dependency_injection.dart';
 import 'package:notez/features/note/presentation/presentation_logic_holders/all_notes_page_state.dart';
 import 'package:notez/features/note/presentation/presentation_logic_holders/future_operation_state.dart';
 import 'package:notez/features/note/presentation/presentation_logic_holders/note_bloc.dart';
 import 'package:notez/features/note/presentation/widgets/new_note_button.dart';
 import 'package:notez/features/note/presentation/widgets/note_object.dart';
-import 'package:notez/features/side_menu/entities/menu.dart';
-import 'package:notez/features/side_menu/presentation/presentation_logic_holders/side_menu_state.dart';
+import 'package:notez/features/side_menu/presentation/bloc/side_menu_bloc.dart';
+import 'package:notez/features/side_menu/presentation/bloc/side_menu_events.dart';
 
 class AllNotesPage extends StatelessWidget {
   const AllNotesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    context.read<HeaderTitleStateCubit>().setHeaderTitle('Notes');
-    context.read<SideMenuStateCubit>().setMenu(Menu.home);
+    context.read<HeaderBloc>().add(SetHeaderTitle(''));
+    context.read<SideMenuBloc>().add(NoteMenuEvent());
 
     return Scaffold(
       backgroundColor: Colors.transparent,

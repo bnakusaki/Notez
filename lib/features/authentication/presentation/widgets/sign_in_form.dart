@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notez/features/authentication/data/model/authentication_button_model.dart';
-import 'package:notez/features/authentication/domain/entities/federated_provider.dart';
-import 'package:notez/features/authentication/presentation/presentation_logic_holders/authentication_bloc.dart';
-import 'package:notez/features/authentication/presentation/presentation_logic_holders/authentication_state.dart';
+import 'package:notez/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:notez/features/authentication/presentation/bloc/authentication_state.dart';
 import 'package:notez/shared/assets/image_assets.dart';
-import 'package:notez/shared/widgets/error_dialog.dart';
 
 class SignInForm extends StatelessWidget {
   const SignInForm({super.key});
@@ -16,75 +14,87 @@ class SignInForm extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
 
-    List<AuthenticationButtonModel> authenticationButtons = [
+    List<AuthenticationButtonModel> authenticationButtonModels = [
       AuthenticationButtonModel(
-        federatedProvider: FederatedProvider.google,
-        label: l10n.continueWithGoogleButtonLable,
+        label: l10n.continueWithFederatedProviderButtonLable('Google'),
         logoPath: ImageAssets.googleLogo,
       ),
       AuthenticationButtonModel(
-        federatedProvider: FederatedProvider.apple,
-        label: l10n.continueWithAppleButtonLable,
+        label: l10n.continueWithFederatedProviderButtonLable('Apple'),
         logoPath: ImageAssets.appleLogo,
       ),
     ];
 
-    return SingleChildScrollView(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             l10n.signInPageTitle,
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: colorScheme.scrim),
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.black),
           ),
-          const SizedBox(height: 30),
-          BlocBuilder<AuthenticateUserCubit, AuthenticationState>(
+          const SizedBox(height: 5),
+          BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, authenticationState) {
-              switch (authenticationState.status) {
-                case AuthenticationStatus.processing:
+              switch (authenticationState) {
+                case Authenticating():
                   return const CircularProgressIndicator();
-                case AuthenticationStatus.failedToAuthenticate:
+                case FailedToAuthenticate():
                   WidgetsBinding.instance.addPostFrameCallback(
                     (_) {
                       showAdaptiveDialog(
                         context: context,
                         builder: (context) {
-                          return ErrorDialog(errorMessage: authenticationState.message!);
+                          return AlertDialog.adaptive(
+                            title: Text(l10n.alertDialogErrorTitle),
+                            content: Text(authenticationState.message),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text(l10n.cancelButtonLabel),
+                              ),
+                            ],
+                          );
                         },
                       );
                     },
                   );
-                case AuthenticationStatus.unauthenticated:
+                case Unauthenticated() || FailedToAuthenticate():
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                      authenticationButtons.length,
+                      authenticationButtonModels.length,
                       (index) {
-                        final button = authenticationButtons[index];
+                        final button = authenticationButtonModels[index];
                         return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: OutlinedButton.icon(
+                          padding: const EdgeInsets.symmetric(vertical: 5.0),
+                          child: OutlinedButton(
                             onPressed: () async {
-                              await context
-                                  .read<AuthenticateUserCubit>()
-                                  .call(button.federatedProvider);
+                              context.read<AuthenticationBloc>().add(AuthenticateWithGoogleEvent());
                             },
-                            icon: Image.asset(
-                              button.logoPath,
-                              height: 30,
-                            ),
-                            label: Text(
-                              button.label,
-                              style: TextStyle(color: colorScheme.onBackground),
+                            child: Row(
+                              children: [
+                                const SizedBox(width: 10.0),
+                                Image.network(
+                                  button.logoPath,
+                                  height: 30,
+                                ),
+                                const Spacer(),
+                                Text(
+                                  button.label,
+                                  style: Theme.of(context).textTheme.titleMedium,
+                                ),
+                                const Spacer(),
+                              ],
                             ),
                           ),
                         );
                       },
                     ),
                   );
-                case AuthenticationStatus.authenticated:
-                  return const Text('Welcome back');
+                case Authenticated():
+                  return Text(l10n.welcomeBackMessage);
               }
               return const SizedBox.shrink();
             },

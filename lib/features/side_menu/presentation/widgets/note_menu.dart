@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notez/features/home/data/models/menu_item_model.dart';
 
 class NoteMenu extends StatelessWidget {
@@ -10,8 +9,6 @@ class NoteMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
     List<MenuItemModel> menuItems = [
       MenuItemModel(
         label: 'Delete',
@@ -25,19 +22,22 @@ class NoteMenu extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 70.0),
-          ...List.generate(menuItems.length, (index) {
-            final menuItem = menuItems[index];
-            return TextButton(
-              onPressed: menuItem.onPressed,
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20.0),
-              ),
-              child: Text(
-                menuItem.label,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(),
-              ),
-            );
-          }),
+          ...List.generate(
+            menuItems.length,
+            (index) {
+              final menuItem = menuItems[index];
+              return TextButton(
+                onPressed: menuItem.onPressed,
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20.0),
+                ),
+                child: Text(
+                  menuItem.label,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(),
+                ),
+              );
+            },
+          ),
           const Divider(),
           const Spacer(),
         ],

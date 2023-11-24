@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:notez/features/header/presentation/presentation_logic_holders/header_title_state.dart';
+import 'package:notez/features/header/presentation/bloc/header_bloc.dart';
+import 'package:notez/features/header/presentation/bloc/header_event.dart';
 import 'package:notez/features/note/domain/entities/note.dart';
 import 'package:notez/features/note/presentation/presentation_logic_holders/all_notes_page_state.dart';
 
@@ -22,7 +23,7 @@ class NoteObject extends StatelessWidget {
         child: InkWell(
           onTap: () async {
             context.go('/readNote/${note.id}');
-            context.read<HeaderTitleStateCubit>().setHeaderTitle(note.title);
+            context.read<HeaderBloc>().add(SetHeaderTitle(note.title));
             await context.read<CurrentNoteCubit>().setNote(note.id!);
           },
           child: Padding(

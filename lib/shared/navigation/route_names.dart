@@ -1,5 +1,5 @@
 class RouteNames {
   static String onboarding = 'onboarding';
-  static String signIn = 'signIn';
+  static String logIn = 'logIn';
   static String home = '/allNotes';
 }

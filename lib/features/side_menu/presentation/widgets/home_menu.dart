@@ -3,9 +3,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:notez/features/header/presentation/presentation_logic_holders/header_title_state.dart';
+import 'package:notez/features/header/presentation/bloc/header_bloc.dart';
+import 'package:notez/features/header/presentation/bloc/header_event.dart';
 import 'package:notez/features/home/data/models/menu_item_model.dart';
-import 'package:notez/navigation/route_names.dart';
+import 'package:notez/shared/navigation/route_names.dart';
 
 class HomeMenu extends StatelessWidget {
   const HomeMenu({
@@ -20,7 +21,7 @@ class HomeMenu extends StatelessWidget {
       MenuItemModel(
         label: l10n.allNotesSideMenuTabLabel,
         onPressed: () {
-          context.read<HeaderTitleStateCubit>().setHeaderTitle(l10n.allNotesSideMenuTabLabel);
+          context.read<HeaderBloc>().add(SetHeaderTitle('Notes'));
           context.goNamed(RouteNames.home);
         },
       ),

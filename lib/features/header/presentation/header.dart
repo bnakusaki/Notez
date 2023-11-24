@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:notez/features/header/presentation/widgets/header_title.dart';
+import 'package:notez/features/header/presentation/bloc/header_bloc.dart';
+import 'package:notez/features/header/presentation/bloc/header_state.dart';
 import 'package:notez/features/search/presentation/search_field.dart';
 
 class Header extends StatelessWidget {
@@ -11,45 +12,52 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final User? currentUser = sl<AuthenticationBloc>().getCurrentUser();
-
-    return Row(
-      children: [
-        const HeaderTitle(),
-        const Spacer(),
-        const SizedBox(
-          width: 500,
-          child: SearchField(),
-        ),
-        const Spacer(),
-        Text(
-          '', // currentUser?.displayName ?? '',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        const SizedBox(width: 10.0),
-        FirebaseAuth.instance.currentUser?.photoURL != null
-            ? Padding(
-                padding: const EdgeInsets.only(right: 20.0, left: 10.0),
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Image(
-                    loadingBuilder: (context, child, loadingProgress) {
-                      return const Icon(Ionicons.person_outline);
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Icon(
-                        Ionicons.person_outline,
-                        color: Colors.red,
-                      );
-                    },
-                    image: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!),
-                  ),
-                ),
-              )
-            : const SizedBox(
-                width: 20.0,
+    return BlocProvider(
+      create: (_) => HeaderBloc(),
+      child: BlocBuilder<HeaderBloc, HeaderState>(
+        builder: (context, state) {
+          return Row(
+            children: [
+              Text(
+                state.title,
+                style: Theme.of(context).textTheme.displaySmall,
               ),
-      ],
+              const Spacer(),
+              const SizedBox(
+                width: 500,
+                child: SearchField(),
+              ),
+              const Spacer(),
+              if (state is NoUserHeaderState) const Spacer(),
+              if (state is UserAvailableHeaderState)
+                Text(
+                  state.userName ?? '',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              const SizedBox(width: 10.0),
+              if (state is UserAvailableHeaderState && state.photoUrl != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 20.0, left: 10.0),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Image(
+                      loadingBuilder: (context, child, loadingProgress) {
+                        return const Icon(Ionicons.person_outline);
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(
+                          Ionicons.person_outline,
+                          color: Colors.red,
+                        );
+                      },
+                      image: NetworkImage(state.photoUrl!),
+                    ),
+                  ),
+                )
+            ],
+          );
+        },
+      ),
     );
   }
 }

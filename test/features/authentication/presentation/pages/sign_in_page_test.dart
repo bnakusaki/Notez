@@ -11,10 +11,10 @@ void main() {
     // Arrange.
     await tester.pumpWidget(const TestApp(child: SignInPage()));
 
-    String signInPageTitle = 'Sign into your account';
+    String signInPageTitle = 'Sign into your account.';
     String googleButtonLabel = 'Continue with Google';
     String appleButtonLabel = 'Continue with Apple';
-    String msg1 = 'Unlock your projects on all devices with a simple sign-in to Notez';
+    String msg1 = 'Unlock your projects on all devices with a simple sign-in to Notez.';
 
     // Act.
     final titleFinder = find.text(signInPageTitle);

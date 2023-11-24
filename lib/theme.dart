@@ -24,6 +24,9 @@ ThemeData theme = ThemeData(
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
       fixedSize: const Size(150, 50),
+      shape: ContinuousRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
     ),
   ),
   bottomAppBarTheme: const BottomAppBarTheme(
@@ -42,6 +45,9 @@ ThemeData theme = ThemeData(
     style: OutlinedButton.styleFrom(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       fixedSize: const Size(350, 50),
+      shape: ContinuousRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(

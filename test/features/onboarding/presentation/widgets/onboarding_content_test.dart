@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:notez/features/onboarding/presentation/widgets/product_purpose.dart';
+import 'package:notez/features/onboarding/presentation/widgets/onboarding_content.dart';
 
 import '../test_app.dart';
 
 void main() {
   testWidgets('Product purpose widget displays correctly', (tester) async {
     // Arrange.
-    await tester.pumpWidget(const TestApp(child: ProductPurpose()));
+    await tester.pumpWidget(const TestApp(child: OnboardingContent()));
 
     String productName = 'Notez';
     String msg1 = 'A Latex solution by ODUM';

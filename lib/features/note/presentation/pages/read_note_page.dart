@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notez/features/side_menu/entities/menu.dart';
-import 'package:notez/features/side_menu/presentation/presentation_logic_holders/side_menu_state.dart';
+import 'package:notez/features/side_menu/presentation/bloc/side_menu_bloc.dart';
+import 'package:notez/features/side_menu/presentation/bloc/side_menu_events.dart';
 
 class ReadNotePage extends StatefulWidget {
   const ReadNotePage({Key? key, required this.noteId}) : super(key: key);
@@ -16,7 +16,7 @@ class _ReadNotePageState extends State<ReadNotePage> {
   @override
   Widget build(BuildContext context) {
     // controller.text = context.read<CurrentNoteCubit>().state!.content ?? '';
-    context.read<SideMenuStateCubit>().setMenu(Menu.note);
+    context.read<SideMenuBloc>().add(NoteMenuEvent());
 
     return const Scaffold(
       backgroundColor: Colors.transparent,

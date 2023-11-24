@@ -10,14 +10,14 @@ import 'package:notez/shared/exceptions/auth_exception.dart';
 
 import 'remote_authentication_data_source_test.mocks.dart';
 
-@GenerateMocks([RemoteAuthenticationDatabase, firebase_auth.User])
+@GenerateMocks([AuthenticationRemoteDataSource, firebase_auth.User])
 void main() {
   late AuthenticationRepositoryImpl repositoryImpl;
-  late MockRemoteAuthenticationDatabase database;
+  late MockAuthenticationRemoteDataSource database;
   late MockUser user;
 
   setUp(() {
-    database = MockRemoteAuthenticationDatabase();
+    database = MockAuthenticationRemoteDataSource();
     repositoryImpl = AuthenticationRepositoryImpl(database);
     user = MockUser();
   });

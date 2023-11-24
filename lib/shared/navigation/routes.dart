@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:notez/features/authentication/presentation/pages/sign_in_page.dart';
 import 'package:notez/features/home/presentation/pages/home_page.dart';
+import 'package:notez/features/note/presentation/pages/all_notes_page.dart';
 import 'package:notez/features/note/presentation/pages/read_note_page.dart';
 import 'package:notez/features/onboarding/presentation/pages/onbording_page.dart';
-import 'package:notez/navigation/route_names.dart';
+import 'package:notez/shared/navigation/route_names.dart';
 
 GoRouter routes = GoRouter(
   initialLocation: '/onboarding',
@@ -15,8 +15,8 @@ GoRouter routes = GoRouter(
       builder: (context, state) => const OnboardingPage(),
       routes: [
         GoRoute(
-          path: 'signIn',
-          name: RouteNames.signIn,
+          path: 'logIn',
+          name: RouteNames.logIn,
           builder: (context, state) => const SignInPage(),
         ),
       ],
@@ -25,12 +25,9 @@ GoRouter routes = GoRouter(
       builder: (context, state, child) => HomePage(child),
       routes: [
         GoRoute(
-          path: '/allNotes',
-          name: RouteNames.home,
-          builder: (context, state) => Container(
-            color: Colors.amber,
-          ),
-        ),
+            path: '/allNotes',
+            name: RouteNames.home,
+            builder: (context, state) => const AllNotesPage()),
         GoRoute(
           path: '/readNote/:noteId',
           builder: (context, state) {
