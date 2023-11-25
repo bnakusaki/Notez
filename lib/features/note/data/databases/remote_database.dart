@@ -45,7 +45,7 @@ class RemoteDatabaseImpl implements RemoteDatabase {
   @override
   Future<void> deleteNote(String id) async {
     final currentUser = FirebaseAuth.instance.currentUser!;
-    final note = await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('userNotes')
         .doc(currentUser.uid)
         .collection('notes')
