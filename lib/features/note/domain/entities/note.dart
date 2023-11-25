@@ -62,4 +62,24 @@ class Note {
 
   /// Storage [Location] of a note.
   final Location location;
+
+  Note copyWith({
+    String? title,
+    String? content,
+    List<int>? todos,
+    int? folder,
+    Location? location,
+  }) {
+    return Note(
+      id: id,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      createdOn: createdOn,
+      lastUpdated: lastUpdated,
+      kind: kind,
+      todos: todos ?? this.todos,
+      folder: folder ?? this.folder,
+      location: location ?? this.location,
+    );
+  }
 }

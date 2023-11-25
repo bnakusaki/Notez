@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:notez/features/header/presentation/bloc/header_bloc.dart';
-import 'package:notez/features/header/presentation/bloc/header_event.dart';
 import 'package:notez/features/note/domain/entities/note.dart';
-import 'package:notez/features/note/presentation/presentation_logic_holders/all_notes_page_state.dart';
 
 class NoteObject extends StatelessWidget {
   const NoteObject({super.key, required this.note});
@@ -21,11 +17,7 @@ class NoteObject extends StatelessWidget {
       width: 300,
       child: Card(
         child: InkWell(
-          onTap: () async {
-            context.go('/readNote/${note.id}');
-            context.read<HeaderBloc>().add(SetHeaderTitle(note.title));
-            await context.read<CurrentNoteCubit>().setNote(note.id!);
-          },
+          onTap: () => context.go('/readNote/${note.id}'),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -50,7 +42,7 @@ class NoteObject extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       TextSpan(
-                        text: DateFormat('EEE, MMM d, y -  h:m a').format(note.lastUpdated),
+                        text: DateFormat('EEE, MMM d, y -  hh:mm a').format(note.lastUpdated),
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],

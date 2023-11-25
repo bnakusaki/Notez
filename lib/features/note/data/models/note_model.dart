@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:notez/features/note/domain/entities/kind.dart';
 import 'package:notez/features/note/domain/entities/location.dart';
 import 'package:notez/features/note/domain/entities/note.dart';
@@ -51,7 +50,6 @@ class NoteModel extends Note {
   }
 
   factory NoteModel.fromJson(Map<String, dynamic> json) {
-    debugPrint(json['content']);
     return NoteModel(
       id: json['id'],
       title: json['title'],
@@ -75,6 +73,7 @@ class NoteModel extends Note {
         'location': location.name,
       };
 
+  @override
   NoteModel copyWith({
     String? userId,
     String? id,

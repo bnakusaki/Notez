@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:notez/features/note/data/models/note_model.dart';
 
 abstract class RemoteDatabase {
   Future<Either<Exception, bool>> createNote();
   Future<NoteModel> readNote(String noteId);
   updateNote(NoteModel noteModel);
-  Future<Either<Exception, int>> deleteNote(int id);
+  Future<void> deleteNote(String id);
   Future<List<NoteModel>> getNotes();
 }
 
@@ -33,7 +32,7 @@ class RemoteDatabaseImpl implements RemoteDatabase {
         .collection('userNotes')
         .doc(currentUser.uid)
         .collection('notes')
-        .orderBy('lastUpdated', descending: true)
+        .orderBy('lastUpdated')
         .get()
         .then(
           (value) => value.docs.map((e) {
@@ -44,9 +43,14 @@ class RemoteDatabaseImpl implements RemoteDatabase {
   }
 
   @override
-  Future<Either<Exception, int>> deleteNote(int id) {
-    // TODO: implement deleteNote
-    throw UnimplementedError();
+  Future<void> deleteNote(String id) async {
+    final currentUser = FirebaseAuth.instance.currentUser!;
+    final note = await FirebaseFirestore.instance
+        .collection('userNotes')
+        .doc(currentUser.uid)
+        .collection('notes')
+        .doc(id)
+        .delete();
   }
 
   @override
@@ -58,8 +62,7 @@ class RemoteDatabaseImpl implements RemoteDatabase {
         .collection('notes')
         .doc(noteId)
         .get();
-    final response = NoteModel.fromJson(note.data()!);
-    debugPrint(response.createdOn.toString());
+    final response = NoteModel.fromJson(note.data()!).copyWith(id: note.id);
     return response;
   }
 
@@ -72,6 +75,6 @@ class RemoteDatabaseImpl implements RemoteDatabase {
         .collection('notes')
         .doc(noteModel.id);
 
-    await docRef.update({'content': noteModel.content});
+    await docRef.update({'content': noteModel.content, 'lastUpdated': DateTime.now().toString()});
   }
 }

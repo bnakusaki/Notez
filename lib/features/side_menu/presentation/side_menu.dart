@@ -12,21 +12,18 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => SideMenuBloc(),
-      child: BlocBuilder<SideMenuBloc, SideMenuState>(
-        builder: (context, sideMenuState) {
-          debugPrint(sideMenuState.toString());
-          switch (sideMenuState) {
-            case HomeMenuState():
-              return const HomeMenu();
-            case NoteMenuState():
-              return const NoteMenu();
-            default:
-              return const SizedBox.shrink();
-          }
-        },
-      ),
+    return BlocBuilder<SideMenuBloc, SideMenuState>(
+      builder: (context, sideMenuState) {
+        debugPrint(sideMenuState.toString());
+        switch (sideMenuState) {
+          case HomeMenuState():
+            return const HomeMenu();
+          case NoteMenuState():
+            return const NoteMenu();
+          default:
+            return const SizedBox.shrink();
+        }
+      },
     );
   }
 }

@@ -5,6 +5,6 @@ abstract class NoteRepository {
   Future<Either<Exception, bool>> createNote();
   Future<Either<Exception, Note>> readNote(String id);
   Future<void> updateNote(Note note);
-  Future<Either<Exception, int>> deleteNote(int id);
+  Future<Either<Exception, void>> deleteNote(String id);
   Future<List<Note>> getNotes();
 }

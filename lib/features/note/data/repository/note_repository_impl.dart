@@ -34,7 +34,14 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
-  Future<Either<Exception, int>> deleteNote(id) async => await localDatabase.deleteNote(id);
+  Future<Either<Exception, void>> deleteNote(String id) async {
+    try {
+      await remoteDatabase.deleteNote(id);
+      return const Right(null);
+    } catch (e) {
+      return Left(e as Exception);
+    }
+  }
 
   @override
   Future<List<NoteModel>> getNotes() => remoteDatabase.getNotes();

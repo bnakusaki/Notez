@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:notez/features/home/data/models/menu_item_model.dart';
+import 'package:notez/features/note/presentation/bloc/note_bloc.dart';
+import 'package:notez/features/note/presentation/bloc/note_events.dart';
+import 'package:notez/features/note/presentation/bloc/note_state.dart';
+import 'package:notez/shared/navigation/route_names.dart';
 
 class NoteMenu extends StatelessWidget {
   const NoteMenu({
@@ -12,7 +18,11 @@ class NoteMenu extends StatelessWidget {
     List<MenuItemModel> menuItems = [
       MenuItemModel(
         label: 'Delete',
-        onPressed: () {},
+        onPressed: () {
+          final state = context.read<NoteBloc>().state;
+          context.read<NoteBloc>().add(DeleteNoteEvent((state as NoteInFocus).note.id!));
+          context.goNamed(RouteNames.home);
+        },
       ),
     ];
 
