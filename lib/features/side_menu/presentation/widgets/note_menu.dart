@@ -39,7 +39,7 @@ class NoteMenu extends StatelessWidget {
               return TextButton(
                 onPressed: menuItem.onPressed,
                 style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20.0),
                 ),
                 child: Text(
                   menuItem.label,
